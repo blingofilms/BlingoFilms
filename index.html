@@ -196,6 +196,14 @@ nav ul li a:hover{
     border-radius:8px;
 }
 
+.movie-feature-video.trailer-player{
+    object-fit:cover;
+}
+
+.movie-feature-video.trailer-player.is-playing{
+    object-fit:contain;
+}
+
 .movie-feature-video[hidden]{
     display:none;
 }
@@ -916,6 +924,12 @@ Netflix, Disney+, Amazon Prime Video, Apple TV+, and Hulu.
 </footer>
 
 <script>
+document.querySelectorAll(".trailer-player").forEach((trailerPlayer) => {
+    trailerPlayer.addEventListener("play", () => {
+        trailerPlayer.classList.add("is-playing");
+    });
+});
+
 document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButton) => {
     const fullMoviePlayer = document.getElementById(watchNowButton.dataset.movieTarget);
     const feature = watchNowButton.closest(".movie-feature");
