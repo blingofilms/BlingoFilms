@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blingo Films | Movie Reviews</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#141414;
+    color:white;
+}
+
+header{
+    background:#000;
+    padding:20px 50px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#e50914;
+    font-size:32px;
+    font-weight:bold;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+}
+
+nav ul li{
+    margin-left:25px;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:white;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    color:#e50914;
+}
+
+.hero{
+    height:80vh;
+    background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.8)),
+    url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    padding:50px;
+}
+
+.hero-content{
+    max-width:600px;
+}
+
+.hero h1{
+    font-size:4rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+.btn{
+    display:inline-block;
+    background:#e50914;
+    color:white;
+    padding:12px 24px;
+    border-radius:5px;
+    text-decoration:none;
+}
+
+.section{
+    padding:60px 40px;
+}
+
+.section h2{
+    margin-bottom:20px;
+}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card[hidden]{
+    display:none;
+}
+
+.card{
+    background:#1f1f1f;
+    border-radius:10px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+}
+
+.movie-poster{
+    display:block;
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    background:#000;
+}
+
+.card-content{
+    padding:15px;
+}
+.trailer {
+    display: block;
+    width: 100%;
+    height: 380px;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    margin-top: 12px;
+}
+
+.movie-feature{
+    display:none;
+    grid-column:1 / -1;
+    gap:18px;
+    padding:20px;
+    background:#101113;
+    border:1px solid #303236;
+    border-radius:10px;
+}
+
+.movie-player-stage{
+    display:grid;
+    gap:12px;
+    margin-bottom:28px;
+    padding:18px;
+    background:#101113;
+    border:1px solid #303236;
+    border-radius:10px;
+}
+
+.movie-player-stage[hidden]{
+    display:none;
+}
+
+.movie-player-stage .movie-feature-video{
+    max-height:72vh;
+}
+
+#the-furious-feature:target,
+#the-furious-feature:has(#the-furious-movie:target),
+#masterplan-feature:target,
+#masterplan-feature:has(#masterplan-movie:target),
+#whispers-feature:target,
+#whispers-feature:has(#whispers-episode-1:target){
+    display:grid;
+}
+
+.movie-feature-video{
+    display:block;
+    width:100%;
+    aspect-ratio:16 / 9;
+    background:#000;
+    border-radius:8px;
+}
+
+.movie-feature-video[hidden]{
+    display:none;
+}
+
+.feature-button[hidden]{
+    display:none;
+}
+
+.trailer-label{
+    margin-bottom:-10px;
+    color:#c5c5c5;
+    font-size:.85rem;
+    font-weight:bold;
+}
+
+.movie-feature-info h3{
+    margin-bottom:10px;
+    font-size:1.8rem;
+}
+
+.movie-category{
+    display:inline-block;
+    margin-left:8px;
+    padding:3px 8px;
+    background:#e50914;
+    border-radius:4px;
+    font-size:.75rem;
+    vertical-align:middle;
+}
+
+.movie-provider,
+.watch-label{
+    margin-top:10px;
+    color:#c5c5c5;
+}
+
+.feature-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+}
+
+.feature-button{
+    display:inline-flex;
+    min-height:46px;
+    align-items:center;
+    justify-content:center;
+    padding:10px 18px;
+    border-radius:6px;
+    color:#fff;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.watch-now{
+    background:#c51b20;
+}
+
+.download-movie{
+    background:#282a2d;
+    border:1px solid #55585d;
+}
+
+.catalog-toolbar{
+    padding:12px 40px;
+    background:#202124;
+    border-bottom:1px solid #303236;
+}
+
+.catalog-tools{
+    display:grid;
+    grid-template-columns:minmax(220px,1fr) minmax(150px,220px) auto;
+    gap:12px;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.catalog-control,
+.watchlist-filter{
+    min-height:44px;
+    padding:10px 12px;
+    border:1px solid #4b4b4b;
+    border-radius:5px;
+    background:#202124;
+    color:white;
+    font:inherit;
+}
+
+.catalog-control:focus-visible,
+.watchlist-filter:focus-visible,
+.watchlist-button:focus-visible{
+    outline:2px solid #e50914;
+    outline-offset:2px;
+}
+
+.watchlist-filter,
+.watchlist-button{
+    cursor:pointer;
+}
+
+.watchlist-filter[aria-pressed="true"],
+.watchlist-button[aria-pressed="true"]{
+    border-color:#e50914;
+    color:#ffb1b1;
+}
+
+.watchlist-button{
+    width:100%;
+    min-height:38px;
+    margin-top:12px;
+    padding:8px 10px;
+    border:1px solid #4b4b4b;
+    border-radius:5px;
+    background:#292a2d;
+    color:#fff;
+    font:inherit;
+}
+
+.empty-state{
+    padding:14px 0;
+    color:#c5c5c5;
+}
+
+.empty-state[hidden]{
+    display:none;
+}
+
+.card-content h3{
+    margin-bottom:10px;
+}
+
+.rating{
+    color:gold;
+}
+
+.review{
+    background:#1f1f1f;
+    padding:25px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+footer{
+    padding:40px 24px 22px;
+    background:#000;
+    margin-top:30px;
+    border-top:1px solid #262a30;
+    text-align:left;
+}
+
+.footer-inner{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+    gap:56px;
+    max-width:1380px;
+    margin:0 auto;
+}
+
+.footer-brand-title{
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.footer-brand-title span{
+    color:#e50914;
+}
+
+.footer-description{
+    max-width:520px;
+    margin-top:16px;
+    color:#b7c0ce;
+    line-height:1.6;
+}
+
+.footer-promos{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+    margin-top:28px;
+}
+
+.footer-promo{
+    display:grid;
+    grid-template-columns:42px minmax(0,1fr);
+    gap:14px;
+    min-height:150px;
+    align-content:start;
+    padding:18px;
+    border:1px solid #303643;
+    border-radius:12px;
+    background:#171b24;
+    color:#fff;
+    text-decoration:none;
+    transition:background .2s,border-color .2s;
+}
+
+.footer-promo:hover{
+    border-color:#535c6c;
+    background:#1c222e;
+}
+
+.footer-promo-icon{
+    display:grid;
+    width:42px;
+    aspect-ratio:1;
+    place-items:center;
+    border-radius:10px;
+    background:#34363a;
+    color:#f4b43b;
+    font-size:18px;
+}
+
+.footer-promo-copy{
+    display:grid;
+    gap:8px;
+}
+
+.footer-promo-eyebrow{
+    color:#aeb9c8;
+    font-size:.7rem;
+    font-weight:bold;
+}
+
+.footer-promo strong{
+    font-size:1rem;
+}
+
+.footer-promo-link{
+    margin-top:8px;
+    color:#f4b43b;
+    font-size:.9rem;
+    font-weight:bold;
+}
+
+.footer-links{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:28px;
+    padding-top:4px;
+}
+
+.footer-link-group h3{
+    margin-bottom:18px;
+    font-size:1rem;
+}
+
+.footer-link-group a,
+.footer-link-group span{
+    display:block;
+    margin-top:14px;
+    color:#aeb9c8;
+    font-size:.95rem;
+    line-height:1.4;
+    text-decoration:none;
+}
+
+.footer-link-group a:hover{
+    color:#fff;
+}
+
+.footer-link-group span[aria-disabled="true"]{
+    color:#737b87;
+}
+
+.footer-copyright{
+    max-width:1380px;
+    margin:30px auto 0;
+    padding-top:16px;
+    border-top:1px solid #262a30;
+    color:#838b97;
+    font-size:.85rem;
+}
+
+@media(max-width:768px){
+
+.hero{
+    height:auto;
+    padding:80px 20px;
+}
+
+.hero h1{
+    font-size:2.5rem;
+}
+
+.catalog-tools{
+    grid-template-columns:1fr;
+}
+
+.catalog-toolbar{
+    padding:12px 20px;
+}
+
+.footer-inner{
+    grid-template-columns:1fr;
+    gap:36px;
+}
+
+.footer-links{
+    gap:18px;
+}
+
+.footer-promos{
+    grid-template-columns:1fr;
+}
+
+.footer-copyright{
+    margin-top:24px;
+}
+
+nav{
+    flex-direction:column;
+}
+
+nav ul{
+    margin-top:15px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+
+<div class="logo">Blingo Films</div>
+
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#movies-section">Movies</a></li>
+<li><a href="#series-section">Series</a></li>
+<li><a href="#reviews-section">Reviews</a></li>
+<li><a href="#watch-legally">Watch</a></li>
+</ul>
+
+</nav>
+</header>
+
+<section class="catalog-toolbar" aria-label="Catalog filters">
+<div class="catalog-tools" aria-label="Movie and series filters">
+<input class="catalog-control" id="catalog-search" type="search" placeholder="Search titles and genres" aria-label="Search movies and series">
+<select class="catalog-control" id="genre-filter" aria-label="Filter by genre">
+<option value="all">All genres</option>
+<option value="action">Action</option>
+<option value="sci-fi">Science fiction</option>
+<option value="drama">Drama</option>
+<option value="historical">Historical</option>
+<option value="crime">Crime</option>
+<option value="mystery">Mystery</option>
+<option value="fantasy">Fantasy</option>
+<option value="comedy-horror">Comedy / Horror</option>
+</select>
+<button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
+</div>
+</section>
+
+<div class="movie-player-stage" id="movie-player-stage" aria-live="polite" hidden></div>
+
+<section class="hero" id="home">
+
+<div class="hero-content">
+
+<h1>Discover Amazing Movies</h1>
+
+<p>
+Read honest reviews, discover trending movies,
+watch trailers, and find where to stream legally.
+</p>
+
+<a href="#movies-section" class="btn">Explore Now</a>
+
+</div>
+
+</section>
+
+<section class="section" id="movies-section">
+
+<h2>🔥 Trending Movies</h2>
+<p class="empty-state" id="catalog-empty" aria-live="polite" hidden>No titles match these filters.</p>
+
+<div class="movies">
+<iframe
+  class="trailer"
+  src="https://www.youtube.com/embed/n9xhJrPXop4?si=hI5eu1jkUzrEuAtB"
+  title="Dune trailer"
+  loading="lazy"
+  allowfullscreen>
+</iframe> 
+<div class="card" data-genre="action">
+<a href="#the-furious-feature">
+<img class="movie-poster" src="furios.png" alt="View The Furious movie feature">
+</a>
+<div class="card-content">
+<h3>The Furious</h3>
+</div>
+</div>
+
+<div class="card" data-genre="action">
+<a href="#masterplan-feature">
+<img class="movie-poster" src="masterplan.png" alt="View Masterplan movie feature">
+</a>
+<div class="card-content">
+<h3>Masterplan</h3>
+</div>
+</div>
+
+<div class="card" data-genre="sci-fi">
+<img src="https://picsum.photos/300/400?1">
+<div class="card-content">
+<h3>Dune</h3>
+<p>Sci-Fi Adventure</p>
+<p class="rating">⭐ 8.8/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="sci-fi">
+<img src="https://picsum.photos/300/400?2">
+<div class="card-content">
+<h3>Interstellar</h3>
+<p>Science Fiction</p>
+<p class="rating">⭐ 9.3/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="drama">
+<img src="https://picsum.photos/300/400?3">
+<div class="card-content">
+<h3>Joker</h3>
+<p>Drama</p>
+<p class="rating">⭐ 8.7/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="historical">
+<img src="https://picsum.photos/300/400?4">
+<div class="card-content">
+<h3>Oppenheimer</h3>
+<p>Historical Drama</p>
+<p class="rating">⭐ 9.0/10</p>
+</div>
+</div>
+
+<section class="movie-feature" id="the-furious-feature" aria-labelledby="the-furious-title">
+<p class="trailer-label">TRAILER</p>
+<video class="movie-feature-video trailer-player" controls preload="metadata" poster="furios.png" aria-label="The Furious trailer">
+<source src="Furious-%20trailer.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<div class="movie-feature-info">
+<h3 id="the-furious-title">Furious Attack <span class="movie-category">ACTION</span></h3>
+<p class="movie-provider">Mr fire</p>
+<p class="watch-label">Watch the full movie</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="the-furious-movie">▶ Watch Now</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+</div>
+</div>
+<video class="movie-feature-video" id="the-furious-movie" controls preload="none" poster="furios.png" aria-label="The Furious full movie" hidden>
+<source src="The_Furious_Agasobanuye..mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+</section>
+
+<section class="movie-feature" id="masterplan-feature" aria-labelledby="masterplan-title">
+<p class="trailer-label">TRAILER</p>
+<video class="movie-feature-video trailer-player" controls preload="metadata" poster="masterplan.png" aria-label="Masterplan official trailer">
+<source src="Masterplan%20-%20Official%20Trailer%20%20Prime%20Video.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<div class="movie-feature-info">
+<h3 id="masterplan-title">Masterplan <span class="movie-category">ORIGINAL</span></h3>
+<p class="movie-provider">Prime Video Original</p>
+<p class="watch-label">Watch the full movie</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="masterplan-movie">▶ Watch Now</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+</div>
+</div>
+<video class="movie-feature-video" id="masterplan-movie" controls preload="none" poster="masterplan.png" aria-label="Masterplan full movie" hidden>
+<source src="Master%20Plan.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+</section>
+
+</div>
+
+</section>
+
+<section class="section" id="series-section">
+
+<h2>🎬 Popular Series</h2>
+
+<div class="movies">
+
+<div class="card" data-genre="fantasy">
+<a href="#whispers-feature">
+<img class="movie-poster" src="whispers%20cover%20page.png" alt="View Whispers of Fate series feature">
+</a>
+<div class="card-content">
+<h3>Whispers of Fate</h3>
+<p>2025 | Completed | 40 episodes</p>
+<p class="rating">⭐ 7.9/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="crime">
+<img src="https://picsum.photos/300/400?5">
+<div class="card-content">
+<h3>Breaking Bad</h3>
+<p>Crime Drama</p>
+<p class="rating">⭐ 9.5/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="mystery">
+<img src="https://picsum.photos/300/400?6">
+<div class="card-content">
+<h3>Dark</h3>
+<p>Mystery Sci-Fi</p>
+<p class="rating">⭐ 9.1/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="fantasy">
+<img src="https://picsum.photos/300/400?7">
+<div class="card-content">
+<h3>Stranger Things</h3>
+<p>Fantasy</p>
+<p class="rating">⭐ 8.9/10</p>
+</div>
+</div>
+
+<div class="card" data-genre="comedy-horror">
+<img src="https://picsum.photos/300/400?8">
+<div class="card-content">
+<h3>Wednesday</h3>
+<p>Comedy Horror</p>
+<p class="rating">⭐ 8.5/10</p>
+</div>
+</div>
+
+<section class="movie-feature" id="whispers-feature" aria-labelledby="whispers-title">
+<p class="trailer-label">TRAILER</p>
+<video class="movie-feature-video trailer-player" controls preload="metadata" poster="whispers%20cover%20page.png" aria-label="Whispers of Fate trailer">
+<source src="%5BENGSUB%20TRAILER%5D%20Whispers%20of%20Fate%20_%20Shui%20Long%20Yin%20Luo%20Yunxi%20Tang%20LiCi%20-%20Tang%20Lici%20Luo%20Yunxi.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<div class="movie-feature-info">
+<h3 id="whispers-title">Whispers of Fate <span class="movie-category">SERIES</span></h3>
+<p class="movie-provider">2025 | Completed | 40 episodes | ⭐ 7.9/10</p>
+<p class="watch-label">Choose an episode</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="whispers-episode-1">▶ Watch Episode 1</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+<button class="feature-button watch-now" type="button" data-movie-target="whispers-episode-3">▶ Watch Episode 3</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+</div>
+</div>
+<video class="movie-feature-video" id="whispers-episode-1" controls preload="none" poster="whispers%20cover%20page.png" aria-label="Whispers of Fate episode 1" hidden>
+<source src="WHISPERS_OF_FATE_EP1.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<video class="movie-feature-video" id="whispers-episode-3" controls preload="none" poster="whispers%20cover%20page.png" aria-label="Whispers of Fate episode 3" hidden>
+<source src="WHISPERS_OF_FATE_03.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+</section>
+
+</div>
+
+</section>
+
+<section class="section" id="reviews-section">
+
+<h2>📝 Latest Reviews</h2>
+
+<div class="review">
+<h3>Interstellar Review</h3>
+<p>
+A masterpiece of science fiction that combines emotional storytelling
+with breathtaking visuals and deep scientific concepts.
+</p>
+</div>
+
+<div class="review">
+<h3>Dune Review</h3>
+<p>
+An epic adaptation featuring stunning cinematography, strong performances,
+and immersive world building.
+</p>
+</div>
+
+<div class="review">
+<h3>Oppenheimer Review</h3>
+<p>
+A powerful historical drama showcasing the life and legacy of J. Robert Oppenheimer.
+</p>
+</div>
+
+</section>
+
+<section class="section" id="watch-legally">
+
+<h2>📺 Watch Legally</h2>
+
+<div class="review">
+<p>
+Find your favorite movies on official streaming services such as
+Netflix, Disney+, Amazon Prime Video, Apple TV+, and Hulu.
+</p>
+</div>
+
+</section>
+
+<footer id="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<a class="footer-brand-title" href="#home">BLINGO FILMS</a>
+<p class="footer-description">Your destination for discovering movies, TV series, and entertainment.</p>
+<div class="footer-promos">
+<a class="footer-promo" href="#movies-section">
+<span class="footer-promo-icon" aria-hidden="true">▶</span>
+<span class="footer-promo-copy">
+<span class="footer-promo-eyebrow">YOUR NEXT MOVIE NIGHT</span>
+<strong>Explore Movies</strong>
+<span class="footer-promo-link">Discover movies →</span>
+</span>
+</a>
+<a class="footer-promo" href="#series-section">
+<span class="footer-promo-icon" aria-hidden="true">▣</span>
+<span class="footer-promo-copy">
+<span class="footer-promo-eyebrow">YOUR NEXT BINGE</span>
+<strong>Explore TV Series</strong>
+<span class="footer-promo-link">Discover series →</span>
+</span>
+</a>
+</div>
+</div>
+
+<nav class="footer-links" aria-label="Footer navigation">
+<div class="footer-link-group">
+<h3>Discover</h3>
+<a href="#home">Home</a>
+<a href="#movies-section">Movies</a>
+<a href="#series-section">TV Series</a>
+<a href="#genre-filter">Genres</a>
+<a href="#watchlist-filter">My Bookmarks</a>
+</div>
+<div class="footer-link-group">
+<h3>Explore</h3>
+<a href="#movies-section">Latest Movies</a>
+<a href="#series-section">Latest Series</a>
+<a href="#catalog-search">Search</a>
+</div>
+<div class="footer-link-group">
+<h3>Information</h3>
+<a href="#home">About Us</a>
+<span aria-disabled="true">Contact</span>
+<span aria-disabled="true">Privacy Policy</span>
+<span aria-disabled="true">Terms of Service</span>
+</div>
+</nav>
+</div>
+<p class="footer-copyright">© 2026 . All Rights Reserved.</p>
+</footer>
+
+<script>
+document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButton) => {
+    const fullMoviePlayer = document.getElementById(watchNowButton.dataset.movieTarget);
+    const feature = watchNowButton.closest(".movie-feature");
+    const trailerPlayer = feature.querySelector(".trailer-player");
+    const trailerLabel = feature.querySelector(".trailer-label");
+    const backButton = feature.querySelector(".back-to-trailer");
+    const originalPlayerParent = fullMoviePlayer.parentElement;
+    const originalBackButtonParent = backButton.parentElement;
+    const moviePlayerStage = document.querySelector("#movie-player-stage");
+
+    const returnToTrailer = () => {
+        fullMoviePlayer.pause();
+        if (fullMoviePlayer.readyState > 0) fullMoviePlayer.currentTime = 0;
+        fullMoviePlayer.hidden = true;
+        originalPlayerParent.append(fullMoviePlayer);
+        originalBackButtonParent.append(backButton);
+        trailerPlayer.hidden = false;
+        trailerLabel.hidden = false;
+        watchNowButton.hidden = false;
+        backButton.hidden = true;
+        moviePlayerStage.hidden = true;
+        if (activeMovieReturn === returnToTrailer) activeMovieReturn = null;
+        trailerLabel.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    watchNowButton.addEventListener("click", async () => {
+        if (activeMovieReturn) activeMovieReturn();
+
+        trailerPlayer.hidden = true;
+        trailerLabel.hidden = true;
+        watchNowButton.hidden = true;
+        moviePlayerStage.hidden = false;
+        moviePlayerStage.append(fullMoviePlayer, backButton);
+        fullMoviePlayer.hidden = false;
+        backButton.hidden = false;
+        activeMovieReturn = returnToTrailer;
+        fullMoviePlayer.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        try {
+            await fullMoviePlayer.play();
+        } catch {
+            fullMoviePlayer.focus();
+        }
+    });
+
+    backButton.addEventListener("click", returnToTrailer);
+    fullMoviePlayer.addEventListener("ended", returnToTrailer);
+});
+
+let activeMovieReturn = null;
+
+const catalogCards = [...document.querySelectorAll(".movies .card")];
+const catalogSearch = document.querySelector("#catalog-search");
+const genreFilter = document.querySelector("#genre-filter");
+const watchlistFilter = document.querySelector("#watchlist-filter");
+const emptyState = document.querySelector("#catalog-empty");
+const watchlistStorageKey = "cineverse-watchlist";
+let savedTitles = new Set();
+let showWatchlistOnly = false;
+
+try {
+    const storedTitles = JSON.parse(localStorage.getItem(watchlistStorageKey) || "[]");
+    if (Array.isArray(storedTitles)) savedTitles = new Set(storedTitles);
+} catch {
+    savedTitles = new Set();
+}
+
+catalogCards.forEach((card) => {
+    const titleElement = card.querySelector(".card-content h3");
+    const content = card.querySelector(".card-content");
+
+    if (!titleElement || !content) return;
+
+    const title = titleElement.textContent.trim();
+    card.dataset.searchText = `${content.textContent} ${card.dataset.genre || ""}`.toLowerCase();
+
+    const watchlistButton = document.createElement("button");
+    watchlistButton.className = "watchlist-button";
+    watchlistButton.type = "button";
+
+    const updateWatchlistButton = () => {
+        const isSaved = savedTitles.has(title);
+        watchlistButton.textContent = isSaved ? "★ In watchlist" : "☆ Add to watchlist";
+        watchlistButton.setAttribute("aria-pressed", String(isSaved));
+        watchlistButton.setAttribute("aria-label", `${isSaved ? "Remove" : "Add"} ${title} ${isSaved ? "from" : "to"} watchlist`);
+    };
+
+    watchlistButton.addEventListener("click", () => {
+        if (savedTitles.has(title)) {
+            savedTitles.delete(title);
+        } else {
+            savedTitles.add(title);
+        }
+
+        try {
+            localStorage.setItem(watchlistStorageKey, JSON.stringify([...savedTitles]));
+        } catch {
+            // Keep the current session's watchlist usable if storage is blocked.
+        }
+
+        updateWatchlistButton();
+        applyCatalogFilters();
+    });
+
+    updateWatchlistButton();
+    content.append(watchlistButton);
+});
+
+function applyCatalogFilters(){
+    const query = catalogSearch.value.trim().toLowerCase();
+    const selectedGenre = genreFilter.value;
+    let visibleCount = 0;
+
+    catalogCards.forEach((card) => {
+        const title = card.querySelector(".card-content h3")?.textContent.trim();
+        const matchesSearch = card.dataset.searchText.includes(query);
+        const matchesGenre = selectedGenre === "all" || card.dataset.genre === selectedGenre;
+        const matchesWatchlist = !showWatchlistOnly || savedTitles.has(title);
+        card.hidden = !(matchesSearch && matchesGenre && matchesWatchlist);
+        if (!card.hidden) visibleCount += 1;
+    });
+
+    emptyState.hidden = visibleCount > 0;
+    emptyState.textContent = showWatchlistOnly && visibleCount === 0
+        ? "Your watchlist has no titles matching these filters."
+        : "No titles match these filters.";
+}
+
+catalogSearch.addEventListener("input", applyCatalogFilters);
+genreFilter.addEventListener("change", applyCatalogFilters);
+watchlistFilter.addEventListener("click", () => {
+    showWatchlistOnly = !showWatchlistOnly;
+    watchlistFilter.setAttribute("aria-pressed", String(showWatchlistOnly));
+    watchlistFilter.textContent = showWatchlistOnly ? "Show all titles" : "☆ Show watchlist";
+    applyCatalogFilters();
+});
+</script>
+
+</body>
+</html>
