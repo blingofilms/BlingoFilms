@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="gQh7Y_xBGZF0tbgypcDfP3f7eyvYG2ofPE-My6Os-3o" />
 <title>Blingo Films | Movie Reviews</title>
+<link rel="icon" type="image/png" href="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Logo.png">
 
 <style>
 *{
@@ -34,9 +35,26 @@ nav{
 }
 
 .logo{
-    color:#e50914;
-    font-size:32px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    color:#fff;
+    font-size:24px;
     font-weight:bold;
+    text-decoration:none;
+    white-space:nowrap;
+}
+
+.logo img{
+    display:block;
+    width:auto;
+    height:52px;
+    max-width:min(220px,45vw);
+    object-fit:contain;
+}
+
+.logo span{
+    color:#e50914;
 }
 
 nav ul{
@@ -160,15 +178,20 @@ nav ul li a:hover{
 .movie-player-stage{
     display:grid;
     gap:12px;
-    margin-bottom:28px;
+    margin:16px 40px 28px;
     padding:18px;
     background:#101113;
     border:1px solid #303236;
     border-radius:10px;
+    scroll-margin-top:160px;
 }
 
 .movie-player-stage[hidden]{
     display:none;
+}
+
+.movie-feature.is-in-player-stage{
+    display:grid;
 }
 
 .movie-player-stage .movie-feature-video{
@@ -475,6 +498,11 @@ footer{
 
 @media(max-width:768px){
 
+.movie-player-stage{
+    margin-right:20px;
+    margin-left:20px;
+}
+
 .hero{
     height:auto;
     padding:80px 20px;
@@ -525,7 +553,10 @@ nav ul{
 <header>
 <nav>
 
-<div class="logo">Blingo Films</div>
+<a class="logo" href="#home" aria-label="Blingo Films home">
+<img src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Logo.png" alt="Blingo Films">
+<span>BLINGO FILMS</span>
+</a>
 
 <ul>
 <li><a href="#home">Home</a></li>
@@ -537,6 +568,10 @@ nav ul{
 
 </nav>
 </header>
+
+<div class="movie-player-stage" id="movie-player-stage" aria-live="polite" hidden>
+<button class="feature-button" id="close-movie-player" type="button" hidden>× Close trailer</button>
+</div>
 
 <section class="catalog-toolbar" aria-label="Catalog filters">
 <div class="catalog-tools" aria-label="Movie and series filters">
@@ -555,8 +590,6 @@ nav ul{
 <button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
 </div>
 </section>
-
-<div class="movie-player-stage" id="movie-player-stage" aria-live="polite" hidden></div>
 
 <section class="hero" id="home">
 
@@ -947,7 +980,9 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
         trailerPlayer.hidden = false;
         watchNowButton.hidden = false;
         backButton.hidden = true;
-        moviePlayerStage.hidden = true;
+        if (!feature.classList.contains("is-in-player-stage")) {
+            moviePlayerStage.hidden = true;
+        }
         if (activeMovieReturn === returnToTrailer) activeMovieReturn = null;
         trailerPlayer.scrollIntoView({ behavior: "smooth", block: "center" });
     };
@@ -976,6 +1011,52 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
 });
 
 let activeMovieReturn = null;
+
+const moviePlayerStage = document.querySelector("#movie-player-stage");
+const closeMoviePlayer = document.querySelector("#close-movie-player");
+let activeFeature = null;
+let restoreActiveFeature = null;
+
+document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]').forEach((movieLink) => {
+    const feature = document.querySelector(movieLink.getAttribute("href"));
+    if (!feature?.querySelector(".trailer-player")) return;
+
+    movieLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (activeMovieReturn) activeMovieReturn();
+        if (activeFeature && activeFeature !== feature) restoreActiveFeature();
+
+        if (activeFeature !== feature) {
+            const originalParent = feature.parentElement;
+            const originalNextSibling = feature.nextElementSibling;
+            restoreActiveFeature = () => {
+                feature.querySelector(".trailer-player").pause();
+                feature.classList.remove("is-in-player-stage");
+                if (originalNextSibling?.parentElement === originalParent) {
+                    originalParent.insertBefore(feature, originalNextSibling);
+                } else {
+                    originalParent.append(feature);
+                }
+                activeFeature = null;
+                restoreActiveFeature = null;
+            };
+            activeFeature = feature;
+            feature.classList.add("is-in-player-stage");
+            moviePlayerStage.append(feature);
+        }
+
+        closeMoviePlayer.hidden = false;
+        moviePlayerStage.hidden = false;
+        moviePlayerStage.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+});
+
+closeMoviePlayer.addEventListener("click", () => {
+    if (activeMovieReturn) activeMovieReturn();
+    if (restoreActiveFeature) restoreActiveFeature();
+    closeMoviePlayer.hidden = true;
+    moviePlayerStage.hidden = true;
+});
 
 const catalogCards = [...document.querySelectorAll(".movies .card")];
 const catalogSearch = document.querySelector("#catalog-search");
