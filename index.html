@@ -28,10 +28,66 @@ header{
     z-index:100;
 }
 
+header nav{
+    padding-right:56px;
+}
+
 nav{
     display:flex;
     justify-content:space-between;
     align-items:center;
+}
+
+.share-control{
+    position:absolute;
+    top:50%;
+    right:24px;
+    display:grid;
+    justify-items:center;
+    gap:4px;
+    transform:translateY(-50%);
+}
+
+.share-button{
+    display:grid;
+    width:42px;
+    height:42px;
+    place-items:center;
+    border:1px solid #444;
+    border-radius:50%;
+    background:#1f1f1f;
+    color:#fff;
+    cursor:pointer;
+    transition:background .2s,border-color .2s;
+}
+
+.share-button:hover{
+    border-color:#e50914;
+    background:#292a2d;
+}
+
+.share-button svg{
+    width:21px;
+    height:21px;
+    fill:currentColor;
+}
+
+.share-feedback{
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+    width:max-content;
+    max-width:220px;
+    padding:7px 10px;
+    border:1px solid #444;
+    border-radius:6px;
+    background:#1f1f1f;
+    color:#fff;
+    font-size:.8rem;
+}
+
+.share-feedback[hidden]{
+    display:none;
 }
 
 .logo{
@@ -322,6 +378,8 @@ nav ul li a:hover{
 #straw-feature:has(#straw-movie:target),
 #masterplan-feature:target,
 #masterplan-feature:has(#masterplan-movie:target),
+#dont-move-feature:target,
+#dont-move-feature:has(#dont-move-movie:target),
 #whispers-feature:target,
 #whispers-feature:has(#whispers-episode-1:target){
     display:grid;
@@ -614,6 +672,16 @@ footer{
 
 @media(max-width:768px){
 
+header nav{
+    padding-right:0;
+}
+
+.share-control{
+    top:18px;
+    right:18px;
+    transform:none;
+}
+
 .movie-player-stage{
     margin-right:20px;
     margin-left:20px;
@@ -710,6 +778,13 @@ nav ul{
 <li><a href="#watch-legally">Watch</a></li>
 </ul>
 
+<div class="share-control">
+<button class="share-button" id="share-site" type="button" aria-label="Share this website" title="Share this website">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a3.3 3.3 0 0 0 0-1.39l7.05-4.11a3 3 0 1 0-.94-1.7L7.97 9.61a3 3 0 1 0 0 4.78l7.12 4.16c-.05.15-.09.31-.09.48a3 3 0 1 0 3-2.95Z"/></svg>
+</button>
+<span class="share-feedback" id="share-feedback" role="status" hidden></span>
+</div>
+
 </nav>
 </header>
 
@@ -754,12 +829,25 @@ nav ul{
 </div>
 </div>
 </article>
+<article class="featured-slide" data-featured-slide="3" hidden>
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Thriller</span></div>
+<h1>Don't Move</h1>
+<p>A tense survival thriller. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="dont-move-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="dont-move-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
 <div class="featured-controls">
 <button class="featured-arrow" id="featured-previous" type="button" aria-label="Previous featured movie">‹</button>
 <div class="featured-pagination" aria-label="Choose featured movie">
 <button class="featured-dot" type="button" data-featured-index="0" aria-label="Show The Furious" aria-pressed="true"></button>
 <button class="featured-dot" type="button" data-featured-index="1" aria-label="Show Jaat" aria-pressed="false"></button>
 <button class="featured-dot" type="button" data-featured-index="2" aria-label="Show Masterplan" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="3" aria-label="Show Don't Move" aria-pressed="false"></button>
 </div>
 <button class="featured-arrow" id="featured-next" type="button" aria-label="Next featured movie">›</button>
 </div>
@@ -778,6 +866,7 @@ nav ul{
 <option value="mystery">Mystery</option>
 <option value="fantasy">Fantasy</option>
 <option value="comedy-horror">Comedy / Horror</option>
+<option value="thriller">Thriller</option>
 </select>
 <button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
 </div>
@@ -821,6 +910,16 @@ nav ul{
 </a>
 <div class="card-content">
 <h3>Masterplan</h3>
+</div>
+</div>
+
+<div class="card" data-genre="thriller">
+<a href="#dont-move-feature">
+<img class="movie-poster" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" alt="View Don't Move movie feature">
+</a>
+<div class="card-content">
+<h3>Don't Move</h3>
+<p>Thriller</p>
 </div>
 </div>
 
@@ -946,6 +1045,26 @@ Your browser does not support video playback.
 </div>
 <video class="movie-feature-video" id="masterplan-movie" controls preload="none" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/masterplan.png" aria-label="Masterplan full movie" hidden>
 <source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Master%20Plan.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+</section>
+
+<section class="movie-feature" id="dont-move-feature" aria-labelledby="dont-move-title">
+<video class="movie-feature-video trailer-player" controls preload="metadata" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" aria-label="Don't Move trailer">
+<source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Don%27t%20move%20%20Final%20Trailer.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<div class="movie-feature-info">
+<h3 id="dont-move-title">Don't Move <span class="movie-category">THRILLER</span></h3>
+<p class="movie-provider">Thriller</p>
+<p class="watch-label">Watch the full movie</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="dont-move-movie">▶ Watch Now</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+</div>
+</div>
+<video class="movie-feature-video" id="dont-move-movie" controls preload="none" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" aria-label="Don't Move full movie" hidden>
+<source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.mp4" type="video/mp4">
 Your browser does not support video playback.
 </video>
 </section>
@@ -1132,6 +1251,56 @@ Netflix, Disney+, Amazon Prime Video, Apple TV+, and Hulu.
 </footer>
 
 <script>
+const shareButton = document.querySelector("#share-site");
+const shareFeedback = document.querySelector("#share-feedback");
+let shareFeedbackTimer;
+
+const showShareFeedback = (message) => {
+    shareFeedback.textContent = message;
+    shareFeedback.hidden = false;
+    clearTimeout(shareFeedbackTimer);
+    shareFeedbackTimer = setTimeout(() => {
+        shareFeedback.hidden = true;
+    }, 3000);
+};
+
+const copyPageLink = async () => {
+    const pageUrl = window.location.href.split("#")[0];
+    try {
+        await navigator.clipboard.writeText(pageUrl);
+        showShareFeedback("Website link copied");
+    } catch {
+        const linkInput = document.createElement("textarea");
+        linkInput.value = pageUrl;
+        linkInput.setAttribute("readonly", "");
+        linkInput.style.position = "fixed";
+        linkInput.style.opacity = "0";
+        document.body.append(linkInput);
+        linkInput.select();
+        const copied = document.execCommand("copy");
+        linkInput.remove();
+        showShareFeedback(copied
+            ? "Website link copied"
+            : "Unable to copy the link. Copy it from your browser address bar.");
+    }
+};
+
+shareButton.addEventListener("click", async () => {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: document.title,
+                url: window.location.href.split("#")[0]
+            });
+            return;
+        } catch (error) {
+            if (error.name === "AbortError") return;
+        }
+    }
+
+    await copyPageLink();
+});
+
 document.querySelectorAll(".trailer-player").forEach((trailerPlayer) => {
     trailerPlayer.addEventListener("play", () => {
         trailerPlayer.classList.add("is-playing");
