@@ -380,6 +380,8 @@ nav ul li a:hover{
 #masterplan-feature:has(#masterplan-movie:target),
 #dont-move-feature:target,
 #dont-move-feature:has(#dont-move-movie:target),
+#gladiator-ii-feature:target,
+#gladiator-ii-feature:has(#gladiator-ii-movie:target),
 #whispers-feature:target,
 #whispers-feature:has(#whispers-episode-1:target){
     display:grid;
@@ -841,6 +843,18 @@ nav ul{
 </div>
 </div>
 </article>
+<article class="featured-slide" data-featured-slide="4" hidden>
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2024</span></div>
+<h1>Gladiator II</h1>
+<p>Return to the Colosseum in Gladiator II. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="gladiator-ii-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="gladiator-ii-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
 <div class="featured-controls">
 <button class="featured-arrow" id="featured-previous" type="button" aria-label="Previous featured movie">‹</button>
 <div class="featured-pagination" aria-label="Choose featured movie">
@@ -848,6 +862,7 @@ nav ul{
 <button class="featured-dot" type="button" data-featured-index="1" aria-label="Show Jaat" aria-pressed="false"></button>
 <button class="featured-dot" type="button" data-featured-index="2" aria-label="Show Masterplan" aria-pressed="false"></button>
 <button class="featured-dot" type="button" data-featured-index="3" aria-label="Show Don't Move" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="4" aria-label="Show Gladiator II" aria-pressed="false"></button>
 </div>
 <button class="featured-arrow" id="featured-next" type="button" aria-label="Next featured movie">›</button>
 </div>
@@ -920,6 +935,16 @@ nav ul{
 <div class="card-content">
 <h3>Don't Move</h3>
 <p>Thriller</p>
+</div>
+</div>
+
+<div class="card" data-genre="action">
+<a href="#gladiator-ii-feature">
+<img class="movie-poster" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" alt="View Gladiator II movie feature">
+</a>
+<div class="card-content">
+<h3>Gladiator II</h3>
+<p>2024 · Action</p>
 </div>
 </div>
 
@@ -1065,6 +1090,26 @@ Your browser does not support video playback.
 </div>
 <video class="movie-feature-video" id="dont-move-movie" controls preload="none" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" aria-label="Don't Move full movie" hidden>
 <source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+</section>
+
+<section class="movie-feature" id="gladiator-ii-feature" aria-labelledby="gladiator-ii-title">
+<video class="movie-feature-video trailer-player" controls preload="metadata" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" aria-label="Gladiator II trailer">
+<source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator%20II%20%20Final%20Trailer%20(2024)%20-.mp4" type="video/mp4">
+Your browser does not support video playback.
+</video>
+<div class="movie-feature-info">
+<h3 id="gladiator-ii-title">Gladiator II <span class="movie-category">ACTION</span></h3>
+<p class="movie-provider">2024</p>
+<p class="watch-label">Watch the full movie</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="gladiator-ii-movie">▶ Watch Now</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+</div>
+</div>
+<video class="movie-feature-video" id="gladiator-ii-movie" controls preload="none" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" aria-label="Gladiator II full movie" hidden>
+<source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator%202%20A.mp4" type="video/mp4">
 Your browser does not support video playback.
 </video>
 </section>
