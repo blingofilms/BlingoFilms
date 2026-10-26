@@ -76,38 +76,154 @@ nav ul li a:hover{
     color:#e50914;
 }
 
-.hero{
-    height:80vh;
-    background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.8)),
-    url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200');
-    background-size:cover;
-    background-position:center;
+.featured-carousel{
+    position:relative;
+    min-height:clamp(460px,70vh,680px);
+    overflow:hidden;
+    background:#101113;
+}
+
+.featured-slide{
+    position:relative;
+    display:flex;
+    min-height:inherit;
+    align-items:center;
+    padding:56px max(6vw,40px) 100px;
+    isolation:isolate;
+}
+
+.featured-slide[hidden]{
+    display:none;
+}
+
+.featured-backdrop{
+    position:absolute;
+    z-index:-2;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 35%;
+}
+
+.featured-slide::before{
+    position:absolute;
+    z-index:-1;
+    inset:0;
+    background:linear-gradient(90deg,rgba(8,10,12,.96) 0%,rgba(8,10,12,.78) 38%,rgba(8,10,12,.22) 100%),
+        linear-gradient(0deg,rgba(8,10,12,.9),transparent 45%);
+    content:"";
+}
+
+.featured-content{
+    width:min(720px,75%);
+}
+
+.featured-meta{
     display:flex;
     align-items:center;
-    padding:50px;
+    gap:14px;
+    margin-bottom:18px;
+    color:#d0d2d5;
+    font-weight:bold;
 }
 
-.hero-content{
-    max-width:600px;
-}
-
-.hero h1{
-    font-size:4rem;
-    margin-bottom:20px;
-}
-
-.hero p{
-    line-height:1.8;
-    margin-bottom:20px;
-}
-
-.btn{
-    display:inline-block;
-    background:#e50914;
-    color:white;
-    padding:12px 24px;
+.featured-badge{
+    padding:7px 12px;
     border-radius:5px;
-    text-decoration:none;
+    background:#e50914;
+    color:#fff;
+}
+
+.featured-content h1{
+    margin-bottom:16px;
+    font-size:clamp(3rem,6vw,5.5rem);
+    line-height:1;
+}
+
+.featured-content p{
+    max-width:700px;
+    margin-bottom:24px;
+    color:#d0d2d5;
+    font-size:clamp(1rem,1.5vw,1.35rem);
+    line-height:1.7;
+}
+
+.featured-actions{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+}
+
+.featured-action{
+    min-height:54px;
+    padding:0 24px;
+    border:1px solid #65676a;
+    border-radius:12px;
+    background:rgba(48,49,51,.92);
+    color:#fff;
+    font:inherit;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.featured-action-primary{
+    border-color:#e50914;
+    background:#e50914;
+}
+
+.featured-action:hover{
+    filter:brightness(1.12);
+}
+
+.featured-controls{
+    position:absolute;
+    right:32px;
+    bottom:24px;
+    left:32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    pointer-events:none;
+}
+
+.featured-arrow,
+.featured-dot{
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+.featured-arrow{
+    width:48px;
+    height:48px;
+    border:1px solid #777;
+    border-radius:50%;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    font-size:1.7rem;
+}
+
+.featured-pagination{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.featured-dot{
+    width:12px;
+    height:12px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:#858585;
+}
+
+.featured-dot[aria-pressed="true"]{
+    width:28px;
+    border-radius:8px;
+    background:#fff;
 }
 
 .section{
@@ -503,13 +619,41 @@ footer{
     margin-left:20px;
 }
 
-.hero{
-    height:auto;
-    padding:80px 20px;
+.featured-carousel,
+.featured-slide{
+    min-height:560px;
 }
 
-.hero h1{
-    font-size:2.5rem;
+.featured-slide{
+    align-items:flex-end;
+    padding:40px 20px 110px;
+}
+
+.featured-slide::before{
+    background:linear-gradient(0deg,rgba(8,10,12,.98) 0%,rgba(8,10,12,.72) 55%,rgba(8,10,12,.18) 100%);
+}
+
+.featured-content{
+    width:100%;
+}
+
+.featured-content h1{
+    font-size:clamp(2.8rem,12vw,4rem);
+}
+
+.featured-controls{
+    right:16px;
+    bottom:20px;
+    left:16px;
+}
+
+.featured-arrow{
+    width:42px;
+    height:42px;
+}
+
+.featured-pagination{
+    gap:8px;
 }
 
 .catalog-tools{
@@ -573,6 +717,54 @@ nav ul{
 <button class="feature-button" id="close-movie-player" type="button" hidden>× Close trailer</button>
 </div>
 
+<section class="featured-carousel" id="home" aria-label="Featured movies">
+<article class="featured-slide" data-featured-slide="0">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/furios.png" alt="" fetchpriority="high">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>New</span></div>
+<h1>The Furious</h1>
+<p>Discover The Furious. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="the-furious-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="the-furious-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="1" hidden>
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/JAAT.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2025</span></div>
+<h1>Jaat</h1>
+<p>Explore Jaat. Watch the movie or view its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="jaat-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="jaat-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="2" hidden>
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/masterplan.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2026</span></div>
+<h1>Masterplan</h1>
+<p>A master thief recruits two strangers for a Louvre heist, then reveals they are his children and must work together to pull off the art theft.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="masterplan-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="masterplan-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<div class="featured-controls">
+<button class="featured-arrow" id="featured-previous" type="button" aria-label="Previous featured movie">‹</button>
+<div class="featured-pagination" aria-label="Choose featured movie">
+<button class="featured-dot" type="button" data-featured-index="0" aria-label="Show The Furious" aria-pressed="true"></button>
+<button class="featured-dot" type="button" data-featured-index="1" aria-label="Show Jaat" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="2" aria-label="Show Masterplan" aria-pressed="false"></button>
+</div>
+<button class="featured-arrow" id="featured-next" type="button" aria-label="Next featured movie">›</button>
+</div>
+</section>
+
 <section class="catalog-toolbar" aria-label="Catalog filters">
 <div class="catalog-tools" aria-label="Movie and series filters">
 <input class="catalog-control" id="catalog-search" type="search" placeholder="Search titles and genres" aria-label="Search movies and series">
@@ -589,22 +781,6 @@ nav ul{
 </select>
 <button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
 </div>
-</section>
-
-<section class="hero" id="home">
-
-<div class="hero-content">
-
-<h1>Welcome to Blingo Films</h1>
-<p>
-Read honest reviews, discover trending movies,
-watch trailers, and find where to stream legally.
-</p>
-
-<a href="#movies-section" class="btn">Explore Now</a>
-
-</div>
-
 </section>
 
 <section class="section" id="movies-section">
@@ -1056,6 +1232,53 @@ closeMoviePlayer.addEventListener("click", () => {
     if (restoreActiveFeature) restoreActiveFeature();
     closeMoviePlayer.hidden = true;
     moviePlayerStage.hidden = true;
+});
+
+const featuredSlides = [...document.querySelectorAll("[data-featured-slide]")];
+const featuredDots = [...document.querySelectorAll("[data-featured-index]")];
+let activeFeaturedIndex = 0;
+
+const showFeaturedSlide = (index) => {
+    activeFeaturedIndex = (index + featuredSlides.length) % featuredSlides.length;
+    featuredSlides.forEach((slide, slideIndex) => {
+        slide.hidden = slideIndex !== activeFeaturedIndex;
+    });
+    featuredDots.forEach((dot, dotIndex) => {
+        dot.setAttribute("aria-pressed", String(dotIndex === activeFeaturedIndex));
+    });
+};
+
+document.querySelector("#featured-previous").addEventListener("click", () => {
+    showFeaturedSlide(activeFeaturedIndex - 1);
+});
+document.querySelector("#featured-next").addEventListener("click", () => {
+    showFeaturedSlide(activeFeaturedIndex + 1);
+});
+featuredDots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+        showFeaturedSlide(Number(dot.dataset.featuredIndex));
+    });
+});
+
+document.querySelectorAll("[data-featured-action]").forEach((actionButton) => {
+    actionButton.addEventListener("click", () => {
+        const featureId = actionButton.dataset.featureId;
+        const feature = document.getElementById(featureId);
+        if (!feature) return;
+
+        if (actionButton.dataset.featuredAction === "watch") {
+            if (activeMovieReturn) activeMovieReturn();
+            if (restoreActiveFeature) {
+                restoreActiveFeature();
+                closeMoviePlayer.hidden = true;
+                moviePlayerStage.hidden = true;
+            }
+            feature.querySelector(".watch-now")?.click();
+            return;
+        }
+
+        document.querySelector(`.movies .card > a[href="#${featureId}"]`)?.click();
+    });
 });
 
 const catalogCards = [...document.querySelectorAll(".movies .card")];
