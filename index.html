@@ -372,6 +372,12 @@ nav ul li a:hover{
 
 #the-furious-feature:target,
 #the-furious-feature:has(#the-furious-movie:target),
+#the-dog-stars-feature:target,
+#fall-feature:target,
+#fall-deadpoint-feature:target,
+#doing-life-feature:target,
+#alpha-feature:target,
+#blast-feature:target,
 #jaat-feature:target,
 #jaat-feature:has(#jaat-movie:target),
 #straw-feature:target,
@@ -397,6 +403,7 @@ nav ul li a:hover{
     display:block;
     width:100%;
     aspect-ratio:16 / 9;
+    border:0;
     background:#000;
     border-radius:8px;
 }
@@ -889,6 +896,7 @@ nav ul{
 <option value="fantasy">Fantasy</option>
 <option value="comedy-horror">Comedy / Horror</option>
 <option value="thriller">Thriller</option>
+<option value="martial-arts">Martial Art</option>
 </select>
 <button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
 </div>
@@ -907,6 +915,66 @@ nav ul{
   loading="lazy"
   allowfullscreen>
 </iframe> 
+<div class="card" data-genre="thriller">
+<a href="#fall-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=14pv8qENwqLEpX288WSIHi9B-4fD4grGc&amp;sz=w1000" alt="View Fall movie feature">
+</a>
+<div class="card-content">
+<h3>Fall</h3>
+<p>2022 · Thriller · Rocky</p>
+</div>
+</div>
+
+<div class="card" data-genre="adventure">
+<a href="#fall-deadpoint-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=1onmUmSGHzkAnvdlJqHcW_72mCs_W-9sn&amp;sz=w1000" alt="View Fall: Deadpoint movie feature">
+</a>
+<div class="card-content">
+<h3>Fall: Deadpoint</h3>
+<p>2026 · Adventure · Rocky</p>
+</div>
+</div>
+
+<div class="card" data-genre="drama">
+<a href="#doing-life-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=1Zbk6e26zaxy8TSzNDpyfgAnszOUfy_ee&amp;sz=w1000" alt="View Doing Life movie feature">
+</a>
+<div class="card-content">
+<h3>Doing Life</h3>
+<p>2026 · Drama · Rocky</p>
+</div>
+</div>
+
+<div class="card" data-genre="action">
+<a href="#alpha-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=1-Q1gaBGqqxfCdj_Borhs8iGs-30XOqHh&amp;sz=w1000" alt="View Alpha movie feature">
+</a>
+<div class="card-content">
+<h3>Alpha</h3>
+<p>2026 · Action · Rocky</p>
+</div>
+</div>
+
+<div class="card" data-genre="martial-arts">
+<a href="#blast-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=10LFMLZQiyavx_cmer35DeDvX9hUkpVi0&amp;sz=w1000" alt="View Blast movie feature">
+</a>
+<div class="card-content">
+<h3>Blast</h3>
+<p>2026 · Martial Art · Rocky</p>
+</div>
+</div>
+
+<div class="card" data-genre="action">
+<a href="#the-dog-stars-feature">
+<img class="movie-poster" src="https://drive.google.com/thumbnail?id=1igJ9mpupjQFg14I_tdJZ9kpIP8VgfA7c&amp;sz=w1000" alt="View The Dog Stars movie feature">
+</a>
+<div class="card-content">
+<h3>The Dog Stars</h3>
+<p>2026 · Action · Perfect (translator)</p>
+</div>
+</div>
+
 <div class="card" data-genre="action">
 <a href="#the-furious-feature">
 <img class="movie-poster" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/furios.png">
@@ -1013,34 +1081,6 @@ nav ul{
 <h3>Gladiator II</h3>
 <p>2024 · Action</p>
 </div>
-</div>
-
-<div class="card" data-genre="sci-fi">
-<img src="https://picsum.photos/300/400?1">
-<div class="card-content">
-<h3>Dune</h3>
-<p>Sci-Fi Adventure</p>
-<p class="rating">⭐ 8.8/10</p>
-</div>
-</div>
-
-<div class="card" data-genre="sci-fi">
-<img src="https://picsum.photos/300/400?2">
-<div class="card-content">
-<h3>Interstellar</h3>
-<p>Science Fiction</p>
-<p class="rating">⭐ 9.3/10</p>
-</div>
-</div>
-
-<div class="card" data-genre="drama">
-<img src="https://picsum.photos/300/400?3">
-<div class="card-content">
-<h3>Joker</h3>
-<p>Drama</p>
-<p class="rating">⭐ 8.7/10</p>
-</div>
-</div>
 
 <div class="card" data-genre="drama">
 <a href="#straw-feature">
@@ -1052,14 +1092,6 @@ nav ul{
 </div>
 </div>
 
-<div class="card" data-genre="historical">
-<img src="https://picsum.photos/300/400?4">
-<div class="card-content">
-<h3>Oppenheimer</h3>
-<p>Historical Drama</p>
-<p class="rating">⭐ 9.0/10</p>
-</div>
-</div>
 
 <section class="movie-feature" id="the-furious-feature" aria-labelledby="the-furious-title">
 <video class="movie-feature-video trailer-player" controls preload="metadata" poster="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/furios.png" aria-label="The Furious trailer">
@@ -1079,6 +1111,54 @@ Your browser does not support video playback.
 <source src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/The_Furious_Agasobanuye..mp4" type="video/mp4">
 Your browser does not support video playback.
 </video>
+</section>
+
+<section class="movie-feature" id="the-dog-stars-feature" aria-labelledby="the-dog-stars-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1tCyf06Uc-eN7DUza3BWDxJZGP15k2Q02/preview" title="The Dog Stars trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="the-dog-stars-title">The Dog Stars <span class="movie-category">ACTION</span></h3>
+<p class="movie-provider">2026 · Perfect (translator)</p>
+</div>
+</section>
+
+<section class="movie-feature" id="fall-feature" aria-labelledby="fall-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1njKrgdlvj7QRNAhe34SEKPwacvJTWRoL/preview" title="Fall trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="fall-title">Fall <span class="movie-category">THRILLER</span></h3>
+<p class="movie-provider">2022 · Rocky</p>
+</div>
+</section>
+
+<section class="movie-feature" id="fall-deadpoint-feature" aria-labelledby="fall-deadpoint-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1Ad5TGIslHIlfo3x_SPVqW6vHF91B0EGy/preview" title="Fall: Deadpoint trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="fall-deadpoint-title">Fall: Deadpoint <span class="movie-category">ADVENTURE</span></h3>
+<p class="movie-provider">2026 · Rocky</p>
+</div>
+</section>
+
+<section class="movie-feature" id="doing-life-feature" aria-labelledby="doing-life-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1k8_1HatfGezIlLUF0WN5W924el1kRduo/preview" title="Doing Life trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="doing-life-title">Doing Life <span class="movie-category">DRAMA</span></h3>
+<p class="movie-provider">2026 · Rocky</p>
+</div>
+</section>
+
+<section class="movie-feature" id="alpha-feature" aria-labelledby="alpha-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/165PwyG5TbpzTj8mZX0sYBRK7WcyIlqWL/preview" title="Alpha trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="alpha-title">Alpha <span class="movie-category">ACTION</span></h3>
+<p class="movie-provider">2026 · Rocky</p>
+</div>
+</section>
+
+<section class="movie-feature" id="blast-feature" aria-labelledby="blast-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1o7SBED_YnPIfVAyiFN1d1YfHhjnv11Ut/preview" title="Blast trailer" loading="lazy" allow="autoplay" allowfullscreen></iframe>
+<div class="movie-feature-info">
+<h3 id="blast-title">Blast <span class="movie-category">MARTIAL ART</span></h3>
+<p class="movie-provider">2026 · Rocky</p>
+</div>
 </section>
 
 <section class="movie-feature" id="jaat-feature" aria-labelledby="jaat-title">
@@ -1215,7 +1295,16 @@ Your browser does not support video playback.
 <div class="movie-feature-info">
 <h3 id="matchbox-the-movie-title">Matchbox the Movie <span class="movie-category">ACTION</span></h3>
 <p class="movie-provider">2026 · Rocky (translator)</p>
+<p class="watch-label">Choose a part to watch</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="matchbox-part-a">▶ Watch Part A</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+<button class="feature-button watch-now" type="button" data-movie-target="matchbox-part-b">▶ Watch Part B</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
 </div>
+</div>
+<iframe class="movie-feature-video" id="matchbox-part-a" src="https://drive.google.com/file/d/1mdGNzBkkKTV25YlMkKmk20WO3NHVtTMN/preview" title="Matchbox the Movie Part A" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
+<iframe class="movie-feature-video" id="matchbox-part-b" src="https://drive.google.com/file/d/16esAuJX14_KQqPFU-nmhg8pEFInxyA6J/preview" title="Matchbox the Movie Part B" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
 </section>
 
 <section class="movie-feature" id="rise-of-the-footsoldier-feature" aria-labelledby="rise-of-the-footsoldier-title">
@@ -1350,42 +1439,6 @@ Your browser does not support video playback.
 <div class="card-content">
 <h3>Ride or Die</h3>
 <p>2026 · Action · Skov (translator)</p>
-</div>
-</div>
-
-<div class="card" data-genre="crime">
-<img src="https://picsum.photos/300/400?5">
-<div class="card-content">
-<h3>Breaking Bad</h3>
-<p>Crime Drama</p>
-<p class="rating">⭐ 9.5/10</p>
-</div>
-</div>
-
-<div class="card" data-genre="mystery">
-<img src="https://picsum.photos/300/400?6">
-<div class="card-content">
-<h3>Dark</h3>
-<p>Mystery Sci-Fi</p>
-<p class="rating">⭐ 9.1/10</p>
-</div>
-</div>
-
-<div class="card" data-genre="fantasy">
-<img src="https://picsum.photos/300/400?7">
-<div class="card-content">
-<h3>Stranger Things</h3>
-<p>Fantasy</p>
-<p class="rating">⭐ 8.9/10</p>
-</div>
-</div>
-
-<div class="card" data-genre="comedy-horror">
-<img src="https://picsum.photos/300/400?8">
-<div class="card-content">
-<h3>Wednesday</h3>
-<p>Comedy Horror</p>
-<p class="rating">⭐ 8.5/10</p>
 </div>
 </div>
 
@@ -1688,13 +1741,18 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
     const feature = watchNowButton.closest(".movie-feature");
     const trailerPlayer = feature.querySelector(".trailer-player");
     const backButton = watchNowButton.nextElementSibling;
+    const isVideoPlayer = fullMoviePlayer instanceof HTMLVideoElement;
     const originalPlayerParent = fullMoviePlayer.parentElement;
     const originalBackButtonParent = backButton.parentElement;
     const moviePlayerStage = document.querySelector("#movie-player-stage");
 
     const returnToTrailer = () => {
-        fullMoviePlayer.pause();
-        if (fullMoviePlayer.readyState > 0) fullMoviePlayer.currentTime = 0;
+        if (isVideoPlayer) {
+            fullMoviePlayer.pause();
+            if (fullMoviePlayer.readyState > 0) fullMoviePlayer.currentTime = 0;
+        } else if (fullMoviePlayer instanceof HTMLIFrameElement) {
+            fullMoviePlayer.src = fullMoviePlayer.src;
+        }
         fullMoviePlayer.hidden = true;
         originalPlayerParent.append(fullMoviePlayer);
         originalBackButtonParent.append(backButton);
@@ -1720,15 +1778,19 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
         activeMovieReturn = returnToTrailer;
         fullMoviePlayer.scrollIntoView({ behavior: "smooth", block: "center" });
 
-        try {
-            await fullMoviePlayer.play();
-        } catch {
+        if (isVideoPlayer) {
+            try {
+                await fullMoviePlayer.play();
+            } catch {
+                fullMoviePlayer.focus();
+            }
+        } else {
             fullMoviePlayer.focus();
         }
     });
 
     backButton.addEventListener("click", returnToTrailer);
-    fullMoviePlayer.addEventListener("ended", returnToTrailer);
+    if (isVideoPlayer) fullMoviePlayer.addEventListener("ended", returnToTrailer);
 });
 
 let activeMovieReturn = null;
@@ -1737,6 +1799,14 @@ const moviePlayerStage = document.querySelector("#movie-player-stage");
 const closeMoviePlayer = document.querySelector("#close-movie-player");
 let activeFeature = null;
 let restoreActiveFeature = null;
+
+const pauseTrailerPlayer = (player) => {
+    if (player instanceof HTMLVideoElement) {
+        player.pause();
+    } else if (player instanceof HTMLIFrameElement) {
+        player.src = player.src;
+    }
+};
 
 document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]').forEach((movieLink) => {
     const feature = document.querySelector(movieLink.getAttribute("href"));
@@ -1751,7 +1821,7 @@ document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]').forE
             const originalParent = feature.parentElement;
             const originalNextSibling = feature.nextElementSibling;
             restoreActiveFeature = () => {
-                feature.querySelector(".trailer-player").pause();
+                pauseTrailerPlayer(feature.querySelector(".trailer-player"));
                 feature.classList.remove("is-in-player-stage");
                 if (originalNextSibling?.parentElement === originalParent) {
                     originalParent.insertBefore(feature, originalNextSibling);
