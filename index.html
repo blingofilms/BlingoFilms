@@ -23,9 +23,14 @@ body{
 header{
     background:#000;
     padding:20px 50px;
+}
+
+.site-topbar{
     position:sticky;
     top:0;
-    z-index:100;
+    z-index:110;
+    background:#000;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
 }
 
 header nav{
@@ -132,6 +137,161 @@ nav ul li a:hover{
     color:#e50914;
 }
 
+.hd-nav{
+    position:relative;
+    justify-content:flex-start;
+    gap:clamp(20px,4vw,56px);
+}
+
+.hd-nav .hd-links{
+    display:flex;
+    align-items:center;
+    gap:clamp(16px,2.4vw,32px);
+    list-style:none;
+}
+
+.hd-nav .hd-links li{
+    margin:0;
+}
+
+.hd-nav .hd-links a,
+.hd-more-btn{
+    color:#fff;
+    font:inherit;
+    text-decoration:none;
+    transition:color .2s;
+}
+
+.hd-nav .hd-links a:hover,
+.hd-more-btn:hover{
+    color:#e50914;
+}
+
+.hd-more{
+    position:relative;
+}
+
+.hd-more-btn{
+    display:flex;
+    min-height:42px;
+    align-items:center;
+    gap:8px;
+    padding:0;
+    border:0;
+    background:transparent;
+    cursor:pointer;
+}
+
+.hd-more-btn svg{
+    width:14px;
+    height:14px;
+    fill:currentColor;
+}
+
+.hd-more-btn:focus-visible,
+.hd-menu a:focus-visible,
+.mobile-nav a:focus-visible,
+.mobile-nav button:focus-visible,
+.chip-row button:focus-visible{
+    outline:2px solid #e50914;
+    outline-offset:3px;
+}
+
+.hd-menu{
+    position:absolute;
+    z-index:110;
+    top:calc(100% + 8px);
+    right:0;
+    display:grid;
+    min-width:190px;
+    gap:4px;
+    padding:8px;
+    border:1px solid #343434;
+    border-radius:8px;
+    background:#171717;
+    box-shadow:0 12px 28px rgba(0,0,0,.4);
+}
+
+.hd-menu[hidden]{
+    display:none;
+}
+
+.hd-menu a{
+    padding:10px 12px;
+    border-radius:5px;
+    color:#e5e5e5;
+    text-decoration:none;
+}
+
+.hd-menu a:hover{
+    background:#292929;
+    color:#fff;
+}
+
+.mobile-nav{
+    display:none;
+}
+
+.chip-row{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:14px 24px;
+    border-bottom:1px solid #303236;
+    background:#171717;
+    scrollbar-width:thin;
+}
+
+.chip-row button{
+    flex:0 0 auto;
+    min-height:38px;
+    padding:8px 15px;
+    border:1px solid #444;
+    border-radius:999px;
+    background:#202124;
+    color:#e5e5e5;
+    font:inherit;
+    cursor:pointer;
+    transition:background .2s,border-color .2s,color .2s;
+}
+
+.chip-row button:hover,
+.chip-row button[aria-pressed="true"]{
+    border-color:#e50914;
+    background:#e50914;
+    color:#fff;
+}
+
+@media(min-width:769px) and (max-width:900px){
+header{
+    padding-right:20px;
+    padding-left:20px;
+}
+
+.hd-nav{
+    gap:14px;
+}
+
+.hd-nav .logo{
+    gap:8px;
+    font-size:18px;
+}
+
+.hd-nav .logo img{
+    height:42px;
+    max-width:120px;
+}
+
+.hd-nav .hd-links{
+    gap:12px;
+    font-size:.9rem;
+}
+
+.share-control{
+    right:12px;
+}
+}
+
 .featured-carousel{
     position:relative;
     min-height:clamp(460px,70vh,680px);
@@ -140,16 +300,54 @@ nav ul li a:hover{
 }
 
 .featured-slide{
-    position:relative;
+    position:absolute;
+    inset:0;
     display:flex;
     min-height:inherit;
     align-items:center;
     padding:56px max(6vw,40px) 100px;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
     isolation:isolate;
+    transition:opacity .7s ease,visibility .7s linear .7s;
 }
 
-.featured-slide[hidden]{
-    display:none;
+.featured-slide.is-active{
+    z-index:1;
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transition:opacity .7s ease;
+}
+
+.featured-slide.is-active .featured-backdrop{
+    animation:featuredZoom 14s ease-out both;
+}
+
+@keyframes featuredZoom{
+    from{transform:scale(1.05);}
+    to{transform:scale(1.15);}
+}
+
+@keyframes catalogCardEnter{
+    from{opacity:0;translate:0 12px;}
+    to{opacity:1;translate:0 0;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    .featured-slide,
+    .featured-slide.is-active{
+        transition:none;
+    }
+
+    .featured-slide.is-active .featured-backdrop{
+        animation:none;
+    }
+
+    .card{
+        animation:none;
+    }
 }
 
 .featured-backdrop{
@@ -252,13 +450,36 @@ nav ul li a:hover{
 }
 
 .featured-arrow{
+    display:grid;
     width:48px;
     height:48px;
+    place-items:center;
     border:1px solid #777;
     border-radius:50%;
     background:rgba(0,0,0,.55);
     color:#fff;
-    font-size:1.7rem;
+    transition:background .2s,border-color .2s,transform .2s;
+}
+
+.featured-arrow:hover{
+    transform:scale(1.08);
+    border-color:#fff;
+    background:rgba(229,9,20,.9);
+}
+
+.featured-arrow:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:3px;
+}
+
+.featured-arrow svg{
+    width:22px;
+    height:22px;
+    fill:none;
+    stroke:currentColor;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width:2;
 }
 
 .featured-pagination{
@@ -305,6 +526,7 @@ nav ul li a:hover{
     border-radius:10px;
     overflow:hidden;
     transition:.3s;
+    animation:catalogCardEnter .45s ease both;
 }
 
 .card:hover{
@@ -362,12 +584,191 @@ nav ul li a:hover{
     display:none;
 }
 
+.movie-open-hero{
+    position:relative;
+    display:flex;
+    min-height:clamp(440px,68vh,560px);
+    align-items:flex-end;
+    overflow:hidden;
+    isolation:isolate;
+    background:#0b0b0e;
+}
+
+.movie-open-hero[hidden]{
+    display:none;
+}
+
+.movie-open-backdrop{
+    position:absolute;
+    z-index:-2;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 25%;
+}
+
+.movie-open-hero::before{
+    position:absolute;
+    z-index:-1;
+    inset:0;
+    background:linear-gradient(0deg,#0f0f0f 0%,rgba(15,15,15,.9) 26%,rgba(15,15,15,0) 80%),
+        linear-gradient(90deg,rgba(8,10,12,.65),transparent 90%);
+    content:"";
+}
+
+.movie-open-content{
+    width:min(820px,100%);
+    padding:48px clamp(24px,6vw,72px) 54px;
+}
+
+.movie-open-meta{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px 14px;
+    margin-bottom:12px;
+    color:#dedede;
+    font-size:.95rem;
+    font-weight:bold;
+}
+
+.movie-open-meta [hidden]{
+    display:none;
+}
+
+.movie-open-kind{
+    padding:6px 10px;
+    border-radius:5px;
+    background:#e50914;
+    color:#fff;
+    text-transform:uppercase;
+}
+
+.movie-open-title{
+    margin:12px 0 10px;
+    color:#fff;
+    font-size:clamp(1.9rem,5.2vw,3.75rem);
+    font-weight:900;
+    text-shadow:0 2px 24px rgba(0,0,0,.45);
+}
+
+.movie-open-description{
+    max-width:680px;
+    margin-bottom:22px;
+    color:#dedede;
+    font-size:1rem;
+    line-height:1.6;
+}
+
+.movie-open-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.movie-open-action{
+    display:inline-flex;
+    min-height:48px;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    padding:0 20px;
+    border:1px solid #777;
+    border-radius:10px;
+    background:rgba(35,35,38,.9);
+    color:#fff;
+    font:inherit;
+    font-weight:bold;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.movie-open-action-primary{
+    border-color:#e50914;
+    background:#e50914;
+    box-shadow:0 10px 26px -10px rgba(229,9,20,.85);
+}
+
+.movie-open-action:hover{
+    filter:brightness(1.12);
+}
+
+.movie-open-action:focus-visible,
+.movie-open-close:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:3px;
+}
+
+.movie-open-close{
+    position:absolute;
+    z-index:2;
+    top:16px;
+    right:16px;
+    width:42px;
+    height:42px;
+    border:1px solid rgba(255,255,255,.55);
+    border-radius:50%;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    font-size:1.5rem;
+    cursor:pointer;
+}
+
+#movie-player-stage[data-mode="hero"],
+#movie-player-stage[data-mode="details"]{
+    gap:0;
+    overflow:hidden;
+    padding:0;
+}
+
+#movie-player-stage[data-mode="hero"] .movie-feature.is-in-player-stage{
+    display:none;
+}
+
+#movie-player-stage[data-mode="details"] .movie-feature.is-in-player-stage{
+    display:grid;
+    border:0;
+    border-top:1px solid #303236;
+    border-radius:0;
+}
+
+#movie-player-stage[data-mode="playing"] .movie-open-hero,
+#movie-player-stage[data-mode="playing"] .movie-feature.is-in-player-stage{
+    display:none;
+}
+
+.movie-player-stage[data-mode="playing"]{
+    gap:12px;
+    padding:18px;
+}
+
 .movie-feature.is-in-player-stage{
     display:grid;
 }
 
 .movie-player-stage .movie-feature-video{
     max-height:72vh;
+}
+
+@media(max-width:768px){
+    .movie-player-stage{
+        margin:12px 12px 22px;
+        scroll-margin-top:110px;
+    }
+
+    .movie-open-hero{
+        min-height:clamp(360px,calc(100vh - 148px),520px);
+    }
+
+    .movie-open-content{
+        padding:32px 20px 34px;
+    }
+
+    .movie-open-close{
+        top:12px;
+        right:12px;
+    }
 }
 
 #the-furious-feature:target,
@@ -493,7 +894,7 @@ nav ul li a:hover{
 }
 
 .catalog-toolbar{
-    padding:12px 40px;
+    padding:10px 24px;
     background:#202124;
     border-bottom:1px solid #303236;
 }
@@ -545,6 +946,29 @@ nav ul li a:hover{
     background:#292a2d;
     color:#fff;
     font:inherit;
+}
+
+.card-share-button{
+    width:100%;
+    min-height:38px;
+    margin-top:8px;
+    padding:8px 10px;
+    border:1px solid #4b4b4b;
+    border-radius:5px;
+    background:#202124;
+    color:#fff;
+    font:inherit;
+    cursor:pointer;
+}
+
+.card-share-button:hover{
+    border-color:#e50914;
+    background:#292a2d;
+}
+
+.card-share-button:focus-visible{
+    outline:2px solid #e50914;
+    outline-offset:2px;
 }
 
 .empty-state{
@@ -706,14 +1130,115 @@ footer{
 
 @media(max-width:768px){
 
+header{
+    padding:14px 20px;
+}
+
 header nav{
     padding-right:0;
+}
+
+.hd-nav{
+    flex-direction:row;
+    justify-content:flex-start;
+}
+
+.hd-nav .hd-links,
+.hd-nav > .hd-more{
+    display:none;
+}
+
+.hd-nav .logo{
+    gap:8px;
+    font-size:clamp(15px,4.2vw,20px);
+}
+
+.hd-nav .logo img{
+    height:38px;
+    max-width:100px;
 }
 
 .share-control{
     top:18px;
     right:18px;
     transform:none;
+}
+
+.mobile-nav{
+    position:fixed;
+    z-index:120;
+    right:0;
+    bottom:0;
+    left:0;
+    display:block;
+    padding:7px max(10px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+    border-top:1px solid #303236;
+    background:rgba(10,10,10,.97);
+    backdrop-filter:blur(12px);
+}
+
+.mobile-nav-row{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    max-width:560px;
+    margin:0 auto;
+}
+
+.mobile-nav a,
+.mobile-nav button{
+    display:grid;
+    min-height:54px;
+    align-content:center;
+    justify-items:center;
+    gap:4px;
+    border:0;
+    background:transparent;
+    color:#c8c8c8;
+    font:inherit;
+    font-size:.72rem;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.mobile-nav a:hover,
+.mobile-nav button:hover{
+    color:#fff;
+}
+
+.mobile-nav svg{
+    width:20px;
+    height:20px;
+    fill:currentColor;
+}
+
+.mobile-nav .hd-more{
+    position:relative;
+}
+
+.mobile-nav .hd-more-btn{
+    width:100%;
+    min-height:54px;
+    flex-direction:column;
+    justify-content:center;
+    gap:4px;
+    color:#c8c8c8;
+    font-size:.72rem;
+}
+
+.mobile-nav .hd-menu{
+    top:auto;
+    right:0;
+    bottom:calc(100% + 10px);
+    min-width:190px;
+}
+
+body{
+    padding-bottom:calc(68px + env(safe-area-inset-bottom));
+}
+
+.chip-row{
+    padding-right:20px;
+    padding-left:20px;
 }
 
 .movie-player-stage{
@@ -783,34 +1308,39 @@ header nav{
     margin-top:24px;
 }
 
-nav{
-    flex-direction:column;
-}
-
-nav ul{
-    margin-top:15px;
-}
 }
 </style>
 </head>
 
 <body>
 
+<div class="site-topbar">
 <header>
-<nav>
+<nav class="hd-nav" aria-label="Main navigation">
 
 <a class="logo" href="#home" aria-label="Blingo Films home">
 <img src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Logo.png" alt="Blingo Films">
 <span>BLINGO FILMS</span>
 </a>
 
-<ul>
-<li><a href="#home">Home</a></li>
+<ul class="hd-links">
+<li><a href="#home" aria-current="page">Home</a></li>
 <li><a href="#movies-section">Movies</a></li>
 <li><a href="#series-section">Series</a></li>
 <li><a href="#reviews-section">Reviews</a></li>
-<li><a href="#watch-legally">Watch</a></li>
 </ul>
+
+<div class="hd-more">
+<button class="hd-more-btn" type="button" aria-expanded="false" aria-controls="hd-menu">
+More
+<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3.2 5.7 4.8 4.8 4.8-4.8-1.1-1.1L8 8.3 4.3 4.6z"/></svg>
+</button>
+<div class="hd-menu" id="hd-menu" hidden>
+<a href="#watch-legally">Watch legally</a>
+<a href="#genre-filter">Browse genres</a>
+<a href="#watchlist-filter">My watchlist</a>
+</div>
+</div>
 
 <div class="share-control">
 <button class="share-button" id="share-site" type="button" aria-label="Share this website" title="Share this website">
@@ -822,87 +1352,9 @@ nav ul{
 </nav>
 </header>
 
-<div class="movie-player-stage" id="movie-player-stage" aria-live="polite" hidden>
-<button class="feature-button" id="close-movie-player" type="button" hidden>× Close trailer</button>
-</div>
-
-<section class="featured-carousel" id="home" aria-label="Featured movies">
-<article class="featured-slide" data-featured-slide="0">
-<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/furios.png" alt="" fetchpriority="high">
-<div class="featured-content">
-<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>New</span></div>
-<h1>The Furious</h1>
-<p>Discover The Furious. Watch the movie or explore its trailer and details.</p>
-<div class="featured-actions">
-<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="the-furious-feature">▶ Watch movie</button>
-<button class="featured-action" type="button" data-featured-action="details" data-feature-id="the-furious-feature">ⓘ Trailer &amp; details</button>
-</div>
-</div>
-</article>
-<article class="featured-slide" data-featured-slide="1" hidden>
-<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/JAAT.png" alt="" loading="lazy">
-<div class="featured-content">
-<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2025</span></div>
-<h1>Jaat</h1>
-<p>Explore Jaat. Watch the movie or view its trailer and details.</p>
-<div class="featured-actions">
-<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="jaat-feature">▶ Watch movie</button>
-<button class="featured-action" type="button" data-featured-action="details" data-feature-id="jaat-feature">ⓘ Trailer &amp; details</button>
-</div>
-</div>
-</article>
-<article class="featured-slide" data-featured-slide="2" hidden>
-<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/masterplan.png" alt="" loading="lazy">
-<div class="featured-content">
-<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2026</span></div>
-<h1>Masterplan</h1>
-<p>A master thief recruits two strangers for a Louvre heist, then reveals they are his children and must work together to pull off the art theft.</p>
-<div class="featured-actions">
-<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="masterplan-feature">▶ Watch movie</button>
-<button class="featured-action" type="button" data-featured-action="details" data-feature-id="masterplan-feature">ⓘ Trailer &amp; details</button>
-</div>
-</div>
-</article>
-<article class="featured-slide" data-featured-slide="3" hidden>
-<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" alt="" loading="lazy">
-<div class="featured-content">
-<div class="featured-meta"><span class="featured-badge">FILM</span><span>Thriller</span></div>
-<h1>Don't Move</h1>
-<p>A tense survival thriller. Watch the movie or explore its trailer and details.</p>
-<div class="featured-actions">
-<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="dont-move-feature">▶ Watch movie</button>
-<button class="featured-action" type="button" data-featured-action="details" data-feature-id="dont-move-feature">ⓘ Trailer &amp; details</button>
-</div>
-</div>
-</article>
-<article class="featured-slide" data-featured-slide="4" hidden>
-<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" alt="" loading="lazy">
-<div class="featured-content">
-<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2024</span></div>
-<h1>Gladiator II</h1>
-<p>Return to the Colosseum in Gladiator II. Watch the movie or explore its trailer and details.</p>
-<div class="featured-actions">
-<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="gladiator-ii-feature">▶ Watch movie</button>
-<button class="featured-action" type="button" data-featured-action="details" data-feature-id="gladiator-ii-feature">ⓘ Trailer &amp; details</button>
-</div>
-</div>
-</article>
-<div class="featured-controls">
-<button class="featured-arrow" id="featured-previous" type="button" aria-label="Previous featured movie">‹</button>
-<div class="featured-pagination" aria-label="Choose featured movie">
-<button class="featured-dot" type="button" data-featured-index="0" aria-label="Show The Furious" aria-pressed="true"></button>
-<button class="featured-dot" type="button" data-featured-index="1" aria-label="Show Jaat" aria-pressed="false"></button>
-<button class="featured-dot" type="button" data-featured-index="2" aria-label="Show Masterplan" aria-pressed="false"></button>
-<button class="featured-dot" type="button" data-featured-index="3" aria-label="Show Don't Move" aria-pressed="false"></button>
-<button class="featured-dot" type="button" data-featured-index="4" aria-label="Show Gladiator II" aria-pressed="false"></button>
-</div>
-<button class="featured-arrow" id="featured-next" type="button" aria-label="Next featured movie">›</button>
-</div>
-</section>
-
-<section class="catalog-toolbar" aria-label="Catalog filters">
+<section class="catalog-toolbar" aria-label="Catalog search and filters">
 <div class="catalog-tools" aria-label="Movie and series filters">
-<input class="catalog-control" id="catalog-search" type="search" placeholder="Search titles and genres" aria-label="Search movies and series">
+<input class="catalog-control" id="catalog-search" type="search" placeholder="Search movies and series" aria-label="Search movies and series">
 <select class="catalog-control" id="genre-filter" aria-label="Filter by genre">
 <option value="all">All genres</option>
 <option value="action">Action</option>
@@ -920,6 +1372,152 @@ nav ul{
 <button class="watchlist-filter" id="watchlist-filter" type="button" aria-pressed="false">☆ Show watchlist</button>
 </div>
 </section>
+</div>
+
+<nav id="mobile-nav-bar" class="mobile-nav" aria-label="Main navigation">
+<div class="mobile-nav-row">
+<a href="#home" aria-current="page">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 8h-3v9h-5v-6h-3v6H5v-9H3z"/></svg>
+<span>Home</span>
+</a>
+<a href="#movies-section">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm1 2v3h3V6zm5 0v3h4V6zm6 0v3h3V6zm-12 5v7h16v-7z"/></svg>
+<span>Movies</span>
+</a>
+<a href="#series-section">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm1 2v10h14V7zm6 2 5 3-5 3z"/></svg>
+<span>Series</span>
+</a>
+<a href="#reviews-section">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5v2h10V8zm0 5v2h7v-2z"/></svg>
+<span>Reviews</span>
+</a>
+<div class="hd-more">
+<button class="hd-more-btn" type="button" aria-expanded="false" aria-controls="mobile-hd-menu">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+<span>More</span>
+</button>
+<div class="hd-menu" id="mobile-hd-menu" hidden>
+<a href="#watch-legally">Watch legally</a>
+<a href="#genre-filter">Browse genres</a>
+<a href="#watchlist-filter">My watchlist</a>
+</div>
+</div>
+</div>
+</nav>
+
+<div class="movie-player-stage" id="movie-player-stage" aria-live="polite" hidden>
+<section class="movie-open-hero" id="movie-open-hero" aria-labelledby="movie-open-title">
+<img class="movie-open-backdrop" id="movie-open-backdrop" src="" alt="">
+<button class="movie-open-close" id="close-movie-player" type="button" aria-label="Close movie details">×</button>
+<div class="movie-open-content">
+<div class="movie-open-meta">
+<span class="movie-open-kind" id="movie-open-kind"></span>
+<span id="movie-open-category" hidden></span>
+<span id="movie-open-provider" hidden></span>
+</div>
+<h2 class="movie-open-title" id="movie-open-title"></h2>
+<p class="movie-open-description" id="movie-open-description"></p>
+<div class="movie-open-actions">
+<button class="movie-open-action movie-open-action-primary" id="movie-open-watch" type="button"></button>
+<button class="movie-open-action" id="movie-open-info" type="button">ⓘ More info</button>
+</div>
+</div>
+</section>
+</div>
+
+<section class="featured-carousel" id="home" aria-label="Featured movies">
+<article class="featured-slide is-active" data-featured-slide="0" aria-hidden="false">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/furios.png" alt="" fetchpriority="high">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>New</span></div>
+<h1>The Furious</h1>
+<p>Discover The Furious. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="the-furious-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="the-furious-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="1" aria-hidden="true">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/JAAT.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2025</span></div>
+<h1>Jaat</h1>
+<p>Explore Jaat. Watch the movie or view its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="jaat-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="jaat-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="2" aria-hidden="true">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/masterplan.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2026</span></div>
+<h1>Masterplan</h1>
+<p>A master thief recruits two strangers for a Louvre heist, then reveals they are his children and must work together to pull off the art theft.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="masterplan-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="masterplan-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="3" aria-hidden="true">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/DONT%20MOVE.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Thriller</span></div>
+<h1>Don't Move</h1>
+<p>A tense survival thriller. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="dont-move-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="dont-move-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<article class="featured-slide" data-featured-slide="4" aria-hidden="true">
+<img class="featured-backdrop" src="https://pub-8eaf471aadad45d2b89819ee4ab9de99.r2.dev/Dental-pro/Gladiator.png" alt="" loading="lazy">
+<div class="featured-content">
+<div class="featured-meta"><span class="featured-badge">FILM</span><span>Action</span><span aria-hidden="true">•</span><span>2024</span></div>
+<h1>Gladiator II</h1>
+<p>Return to the Colosseum in Gladiator II. Watch the movie or explore its trailer and details.</p>
+<div class="featured-actions">
+<button class="featured-action featured-action-primary" type="button" data-featured-action="watch" data-feature-id="gladiator-ii-feature">▶ Watch movie</button>
+<button class="featured-action" type="button" data-featured-action="details" data-feature-id="gladiator-ii-feature">ⓘ Trailer &amp; details</button>
+</div>
+</div>
+</article>
+<div class="featured-controls">
+<button class="featured-arrow" id="featured-previous" type="button" aria-label="Previous featured title">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+</button>
+<div class="featured-pagination" aria-label="Choose featured movie">
+<button class="featured-dot" type="button" data-featured-index="0" aria-label="Show The Furious" aria-pressed="true"></button>
+<button class="featured-dot" type="button" data-featured-index="1" aria-label="Show Jaat" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="2" aria-label="Show Masterplan" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="3" aria-label="Show Don't Move" aria-pressed="false"></button>
+<button class="featured-dot" type="button" data-featured-index="4" aria-label="Show Gladiator II" aria-pressed="false"></button>
+</div>
+<button class="featured-arrow" id="featured-next" type="button" aria-label="Next featured title">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+</button>
+</div>
+</section>
+
+<nav class="chip-row" aria-label="Filter by category">
+<button type="button" data-genre-chip="all" aria-pressed="true">All</button>
+<button type="button" data-genre-chip="action" aria-pressed="false">Action</button>
+<button type="button" data-genre-chip="drama" aria-pressed="false">Drama</button>
+<button type="button" data-genre-chip="thriller" aria-pressed="false">Thriller</button>
+<button type="button" data-genre-chip="adventure" aria-pressed="false">Adventure</button>
+<button type="button" data-genre-chip="crime" aria-pressed="false">Crime</button>
+<button type="button" data-genre-chip="fantasy" aria-pressed="false">Fantasy</button>
+<button type="button" data-genre-chip="historical" aria-pressed="false">Historical</button>
+<button type="button" data-genre-chip="martial-arts" aria-pressed="false">Martial art</button>
+<button type="button" data-genre-chip="mystery" aria-pressed="false">Mystery</button>
+<button type="button" data-genre-chip="sci-fi" aria-pressed="false">Science fiction</button>
+<button type="button" data-genre-chip="comedy-horror" aria-pressed="false">Comedy / Horror</button>
+</nav>
 
 <section class="section" id="movies-section">
 
@@ -1137,7 +1735,16 @@ Your browser does not support video playback.
 <div class="movie-feature-info">
 <h3 id="the-dog-stars-title">The Dog Stars <span class="movie-category">ACTION</span></h3>
 <p class="movie-provider">2026 · Perfect (translator)</p>
+<p class="watch-label">Choose a part to watch</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="the-dog-stars-part-a">▶ Watch Part A</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+<button class="feature-button watch-now" type="button" data-movie-target="the-dog-stars-part-b">▶ Watch Part B</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
 </div>
+</div>
+<iframe class="movie-feature-video" id="the-dog-stars-part-a" src="https://drive.google.com/file/d/1UBIpxCOxVd88pE21rN38n3cyc100bl-O/preview" title="The Dog Stars Part A" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
+<iframe class="movie-feature-video" id="the-dog-stars-part-b" src="https://drive.google.com/file/d/1loknIobQg-eYQC5HLXqR7rxQTCuQr1I0/preview" title="The Dog Stars Part B" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
 </section>
 
 <section class="movie-feature" id="fall-feature" aria-labelledby="fall-title">
@@ -1161,7 +1768,13 @@ Your browser does not support video playback.
 <div class="movie-feature-info">
 <h3 id="doing-life-title">Doing Life <span class="movie-category">DRAMA</span></h3>
 <p class="movie-provider">2026 · Rocky</p>
+<p class="watch-label">Watch the full movie</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="doing-life-movie">▶ Watch Now</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
 </div>
+</div>
+<iframe class="movie-feature-video" id="doing-life-movie" src="https://drive.google.com/file/d/1WdA1vvhsFeN3sqNjf3SjADF_XEN2oB-l/preview" title="Doing Life full movie" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
 </section>
 
 <section class="movie-feature" id="alpha-feature" aria-labelledby="alpha-title">
@@ -1169,7 +1782,16 @@ Your browser does not support video playback.
 <div class="movie-feature-info">
 <h3 id="alpha-title">Alpha <span class="movie-category">ACTION</span></h3>
 <p class="movie-provider">2026 · Rocky</p>
+<p class="watch-label">Choose a part to watch</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="alpha-part-a">▶ Watch Part A</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+<button class="feature-button watch-now" type="button" data-movie-target="alpha-part-b">▶ Watch Part B</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
 </div>
+</div>
+<iframe class="movie-feature-video" id="alpha-part-a" src="https://drive.google.com/file/d/1TWST-ZV7aXBcp4K-jhFEXizYAC9hVPWj/preview" title="Alpha Part A" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
+<iframe class="movie-feature-video" id="alpha-part-b" src="https://drive.google.com/file/d/1dDdji1Z-HFFRnEqD64PhLK1mWTlmvXh9/preview" title="Alpha Part B" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
 </section>
 
 <section class="movie-feature" id="blast-feature" aria-labelledby="blast-title">
@@ -1177,7 +1799,16 @@ Your browser does not support video playback.
 <div class="movie-feature-info">
 <h3 id="blast-title">Blast <span class="movie-category">MARTIAL ART</span></h3>
 <p class="movie-provider">2026 · Rocky</p>
+<p class="watch-label">Choose a part to watch</p>
+<div class="feature-actions">
+<button class="feature-button watch-now" type="button" data-movie-target="blast-part-a">▶ Watch Part A</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
+<button class="feature-button watch-now" type="button" data-movie-target="blast-part-b">▶ Watch Part B</button>
+<button class="feature-button back-to-trailer" type="button" hidden>← Back to Trailer</button>
 </div>
+</div>
+<iframe class="movie-feature-video" id="blast-part-a" src="https://drive.google.com/file/d/1FHFbtPcVGIhj2_wurFID3QMIe-YjJrbI/preview" title="Blast Part A" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
+<iframe class="movie-feature-video" id="blast-part-b" src="https://drive.google.com/file/d/1L3vlb69L9mCoRm7YzvyIu44Ti4ZKJTgB/preview" title="Blast Part B" loading="lazy" allow="autoplay; fullscreen" allowfullscreen hidden></iframe>
 </section>
 
 <section class="movie-feature" id="jaat-feature" aria-labelledby="jaat-title">
@@ -1572,6 +2203,7 @@ Your browser does not support video playback.
 </div>
 
 <section class="movie-feature" id="be-yourself-feature" aria-labelledby="be-yourself-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1mpEZrv3AWjdrJ6ZYce-e_4sE8E5YE37_/preview" title="Be Yourself trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1dhFbGXy0G_AtWPdW0rHEYvpE78H9eb1u&amp;sz=w1000" alt="Be Yourself cover">
 <div class="movie-feature-info">
 <h3 id="be-yourself-title">Be Yourself <span class="movie-category">SCIENCE SERIES</span></h3>
@@ -1580,6 +2212,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="prelude-of-the-white-snake-feature" aria-labelledby="prelude-of-the-white-snake-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1IznPmXH0LvilKZisFZwKD44oebfG2Xmm/preview" title="Prelude of the White Snake trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1n9y7dAdkYzOc4_fzPglZ3MRsCE06Osga&amp;sz=w1000" alt="Prelude of the White Snake cover">
 <div class="movie-feature-info">
 <h3 id="prelude-of-the-white-snake-title">Prelude of the White Snake <span class="movie-category">DRAMA SERIES</span></h3>
@@ -1588,6 +2221,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="sword-god-feature" aria-labelledby="sword-god-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1dMlUWdAoGPGvcBw6mqiLcgNqSmHMkI07/preview" title="Sword God trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1-M_qoZOsI5L9ruSIuONMQNp6msoBKF_H&amp;sz=w1000" alt="Sword God cover">
 <div class="movie-feature-info">
 <h3 id="sword-god-title">Sword God <span class="movie-category">FANTASY SERIES</span></h3>
@@ -1596,6 +2230,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="young-swordsman-feature" aria-labelledby="young-swordsman-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1EAjYVRbJ1P5ddx_RooJvAXEd6h_pvP-f/preview" title="Young Swordsman trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1w-ux3AbCLoL0fPAmItOYM6CDiGbmIG3H&amp;sz=w1000" alt="Young Swordsman cover">
 <div class="movie-feature-info">
 <h3 id="young-swordsman-title">Young Swordsman <span class="movie-category">ACTION SERIES</span></h3>
@@ -1604,6 +2239,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="bon-appetit-your-majesty-feature" aria-labelledby="bon-appetit-your-majesty-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/13IUtS3lIxBQNUe3A8U4-MNuPOGkfG76a/preview" title="Bon Appetit, Your Majesty trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1Ge5GeZQiICHf24zyDqMWrwJtH6yGkNuH&amp;sz=w1000" alt="Bon Appetit, Your Majesty cover">
 <div class="movie-feature-info">
 <h3 id="bon-appetit-your-majesty-title">Bon Appetit, Your Majesty <span class="movie-category">KOREAN DRAMA SERIES</span></h3>
@@ -1612,6 +2248,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="beauty-in-black-s3-feature" aria-labelledby="beauty-in-black-s3-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1rmuXEGDWJduehoBdLCz6vcAtC9thEIZU/preview" title="Beauty in Black season 3 trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=10Jkwomi_-eFRbbjuRz0fN4t2f02Jc9J2&amp;sz=w1000" alt="Beauty in Black season 3 cover">
 <div class="movie-feature-info">
 <h3 id="beauty-in-black-s3-title">Beauty in Black S3 <span class="movie-category">DRAMA SERIES</span></h3>
@@ -1620,6 +2257,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="night-has-come-feature" aria-labelledby="night-has-come-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/13PGa2Mp71bSO3lJeTpjv_oGi_XEtEpX7/preview" title="Night Has Come trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1Qz-WfAFFOo50iNd50Q9CV2rUIRgICtyr&amp;sz=w1000" alt="Night Has Come cover">
 <div class="movie-feature-info">
 <h3 id="night-has-come-title">Night Has Come <span class="movie-category">DRAMA SERIES</span></h3>
@@ -1628,6 +2266,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="squid-game-s3-feature" aria-labelledby="squid-game-s3-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1cYGllgORwYIR0qlITLCikYtHzvtvobkP/preview" title="Squid Game season 3 trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=18AfJd72rkWPeOfJDLLf913t165pWfIFg&amp;sz=w1000" alt="Squid Game season 3 cover">
 <div class="movie-feature-info">
 <h3 id="squid-game-s3-title">Squid Game S3 <span class="movie-category">ACTION &amp; ADVENTURE SERIES</span></h3>
@@ -1636,6 +2275,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="my-country-the-new-age-feature" aria-labelledby="my-country-the-new-age-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1qBTajbXCCIAkWQiqoF6Lj7WgBRbKK7en/preview" title="My Country: The New Age trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1PMMzmoN65RbxLpH9guQT2qtiMZ4hsI-w&amp;sz=w1000" alt="My Country: The New Age cover">
 <div class="movie-feature-info">
 <h3 id="my-country-the-new-age-title">My Country: The New Age <span class="movie-category">DRAMA SERIES</span></h3>
@@ -1644,6 +2284,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="who-is-erin-carter-feature" aria-labelledby="who-is-erin-carter-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1gwz96jgAh0OyLVl_ExCudS2BMSBDVEyD/preview" title="Who Is Erin Carter trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1DzHixEQ90eF5ituA-nJA8DRbIRY7nJac&amp;sz=w1000" alt="Who Is Erin Carter cover">
 <div class="movie-feature-info">
 <h3 id="who-is-erin-carter-title">Who Is Erin Carter <span class="movie-category">ACTION SERIES</span></h3>
@@ -1652,6 +2293,7 @@ Your browser does not support video playback.
 </section>
 
 <section class="movie-feature" id="bank-under-siege-feature" aria-labelledby="bank-under-siege-title">
+<iframe class="movie-feature-video trailer-player" src="https://drive.google.com/file/d/1q_zHMJ7niGKWmodhQwgVdAMljcIsO4RN/preview" title="Bank Under Siege trailer" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <img class="series-cover-preview" src="https://drive.google.com/thumbnail?id=1V4oAkJ7ycxshxLwshd0SZcj7aBBordU0&amp;sz=w1000" alt="Bank Under Siege cover">
 <div class="movie-feature-info">
 <h3 id="bank-under-siege-title">Bank Under Siege <span class="movie-category">HEIST SERIES</span></h3>
@@ -1897,6 +2539,43 @@ Netflix, Disney+, Amazon Prime Video, Apple TV+, and Hulu.
 </footer>
 
 <script>
+document.querySelectorAll(".hd-more-btn").forEach((button) => {
+    const menu = document.getElementById(button.getAttribute("aria-controls"));
+
+    button.addEventListener("click", () => {
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        document.querySelectorAll(".hd-more-btn").forEach((otherButton) => {
+            otherButton.setAttribute("aria-expanded", "false");
+            document.getElementById(otherButton.getAttribute("aria-controls")).hidden = true;
+        });
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        menu.hidden = isExpanded;
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            button.setAttribute("aria-expanded", "false");
+            menu.hidden = true;
+        });
+    });
+});
+
+document.addEventListener("click", (event) => {
+    if (event.target.closest(".hd-more")) return;
+    document.querySelectorAll(".hd-more-btn").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+        document.getElementById(button.getAttribute("aria-controls")).hidden = true;
+    });
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll(".hd-more-btn").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+        document.getElementById(button.getAttribute("aria-controls")).hidden = true;
+    });
+});
+
 const shareButton = document.querySelector("#share-site");
 const shareFeedback = document.querySelector("#share-feedback");
 let shareFeedbackTimer;
@@ -1910,11 +2589,13 @@ const showShareFeedback = (message) => {
     }, 3000);
 };
 
-const copyPageLink = async () => {
-    const pageUrl = window.location.href.split("#")[0];
+const copyPageLink = async (
+    pageUrl = window.location.href.split("#")[0],
+    successMessage = "Website link copied"
+) => {
     try {
         await navigator.clipboard.writeText(pageUrl);
-        showShareFeedback("Website link copied");
+        showShareFeedback(successMessage);
     } catch {
         const linkInput = document.createElement("textarea");
         linkInput.value = pageUrl;
@@ -1926,7 +2607,7 @@ const copyPageLink = async () => {
         const copied = document.execCommand("copy");
         linkInput.remove();
         showShareFeedback(copied
-            ? "Website link copied"
+            ? successMessage
             : "Unable to copy the link. Copy it from your browser address bar.");
     }
 };
@@ -1976,6 +2657,7 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
         trailerPlayer.hidden = false;
         watchNowButton.hidden = false;
         backButton.hidden = true;
+        moviePlayerStage.dataset.mode = "details";
         if (!feature.classList.contains("is-in-player-stage")) {
             moviePlayerStage.hidden = true;
         }
@@ -1989,6 +2671,7 @@ document.querySelectorAll(".watch-now[data-movie-target]").forEach((watchNowButt
         trailerPlayer.hidden = true;
         watchNowButton.hidden = true;
         moviePlayerStage.hidden = false;
+        moviePlayerStage.dataset.mode = "playing";
         moviePlayerStage.append(fullMoviePlayer, backButton);
         fullMoviePlayer.hidden = false;
         backButton.hidden = false;
@@ -2014,6 +2697,14 @@ let activeMovieReturn = null;
 
 const moviePlayerStage = document.querySelector("#movie-player-stage");
 const closeMoviePlayer = document.querySelector("#close-movie-player");
+const movieOpenBackdrop = document.querySelector("#movie-open-backdrop");
+const movieOpenKind = document.querySelector("#movie-open-kind");
+const movieOpenCategory = document.querySelector("#movie-open-category");
+const movieOpenProvider = document.querySelector("#movie-open-provider");
+const movieOpenTitle = document.querySelector("#movie-open-title");
+const movieOpenDescription = document.querySelector("#movie-open-description");
+const movieOpenWatch = document.querySelector("#movie-open-watch");
+const movieOpenInfo = document.querySelector("#movie-open-info");
 let activeFeature = null;
 let restoreActiveFeature = null;
 
@@ -2025,35 +2716,91 @@ const pauseTrailerPlayer = (player) => {
     }
 };
 
+const showActiveFeatureDetails = () => {
+    if (!activeFeature) return;
+    moviePlayerStage.dataset.mode = "details";
+    activeFeature.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+movieOpenInfo.addEventListener("click", showActiveFeatureDetails);
+
+movieOpenWatch.addEventListener("click", () => {
+    if (!activeFeature) return;
+    const watchButtons = [...activeFeature.querySelectorAll(".watch-now[data-movie-target]")];
+    if (watchButtons.length === 1) {
+        watchButtons[0].click();
+        return;
+    }
+
+    showActiveFeatureDetails();
+    if (watchButtons.length > 1) return;
+
+    const trailerPlayer = activeFeature.querySelector(".trailer-player");
+    if (trailerPlayer instanceof HTMLVideoElement) {
+        trailerPlayer.play().catch(() => trailerPlayer.focus());
+    } else {
+        trailerPlayer?.focus();
+    }
+});
+
 document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]').forEach((movieLink) => {
     const feature = document.querySelector(movieLink.getAttribute("href"));
-    if (!feature?.querySelector(".trailer-player")) return;
+    if (!feature) return;
 
     movieLink.addEventListener("click", (event) => {
         event.preventDefault();
         if (activeMovieReturn) activeMovieReturn();
-        if (activeFeature && activeFeature !== feature) restoreActiveFeature();
+        if (activeFeature) restoreActiveFeature();
 
-        if (activeFeature !== feature) {
-            const originalParent = feature.parentElement;
-            const originalNextSibling = feature.nextElementSibling;
-            restoreActiveFeature = () => {
-                pauseTrailerPlayer(feature.querySelector(".trailer-player"));
-                feature.classList.remove("is-in-player-stage");
-                if (originalNextSibling?.parentElement === originalParent) {
-                    originalParent.insertBefore(feature, originalNextSibling);
-                } else {
-                    originalParent.append(feature);
-                }
-                activeFeature = null;
-                restoreActiveFeature = null;
-            };
-            activeFeature = feature;
-            feature.classList.add("is-in-player-stage");
-            moviePlayerStage.append(feature);
-        }
+        const card = movieLink.closest(".card");
+        const cardContent = card.querySelector(".card-content");
+        const title = cardContent.querySelector("h3")?.textContent.trim() || "Untitled";
+        const poster = movieLink.querySelector(".movie-poster");
+        const category = feature.querySelector(".movie-category");
+        const provider = feature.querySelector(".movie-provider")
+            || cardContent.querySelector("p:not(.rating)");
+        const watchButtons = feature.querySelectorAll(".watch-now[data-movie-target]");
+        const hasTrailer = Boolean(feature.querySelector(".trailer-player"));
+        const kind = movieLink.closest("#series-section") ? "Series" : "Movie";
 
-        closeMoviePlayer.hidden = false;
+        movieOpenBackdrop.src = poster?.currentSrc || poster?.src || "";
+        movieOpenBackdrop.alt = "";
+        movieOpenKind.textContent = kind;
+        movieOpenCategory.textContent = category?.textContent.trim()
+            || (card.dataset.genre || "").replaceAll("-", " ");
+        movieOpenCategory.hidden = !movieOpenCategory.textContent;
+        movieOpenProvider.textContent = provider?.textContent.trim() || "";
+        movieOpenProvider.hidden = !movieOpenProvider.textContent;
+        movieOpenTitle.textContent = title;
+        movieOpenDescription.textContent = hasTrailer
+            ? "Watch the trailer and explore available viewing options."
+            : "Explore available viewing options and details.";
+        movieOpenWatch.hidden = watchButtons.length === 0 && !hasTrailer;
+        movieOpenWatch.textContent = watchButtons.length > 1
+            ? "▶ Choose a part"
+            : watchButtons.length === 1
+                ? "▶ Watch now"
+                : "▶ Watch trailer";
+
+        const originalParent = feature.parentElement;
+        const originalNextSibling = feature.nextElementSibling;
+        restoreActiveFeature = () => {
+            pauseTrailerPlayer(feature.querySelector(".trailer-player"));
+            feature.classList.remove("is-in-player-stage");
+            if (originalNextSibling?.parentElement === originalParent) {
+                originalParent.insertBefore(feature, originalNextSibling);
+            } else {
+                originalParent.append(feature);
+            }
+            activeFeature = null;
+            restoreActiveFeature = null;
+            delete moviePlayerStage.dataset.mode;
+        };
+        activeFeature = feature;
+        feature.classList.add("is-in-player-stage");
+        moviePlayerStage.append(feature);
+
+        moviePlayerStage.dataset.mode = "hero";
         moviePlayerStage.hidden = false;
         moviePlayerStage.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -2062,22 +2809,122 @@ document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]').forE
 closeMoviePlayer.addEventListener("click", () => {
     if (activeMovieReturn) activeMovieReturn();
     if (restoreActiveFeature) restoreActiveFeature();
-    closeMoviePlayer.hidden = true;
     moviePlayerStage.hidden = true;
 });
 
-const featuredSlides = [...document.querySelectorAll("[data-featured-slide]")];
-const featuredDots = [...document.querySelectorAll("[data-featured-index]")];
-let activeFeaturedIndex = 0;
+const featuredCarousel = document.querySelector(".featured-carousel");
+const featuredPagination = document.querySelector(".featured-pagination");
+featuredCarousel.querySelectorAll("[data-featured-slide], [data-featured-index]").forEach((element) => {
+    element.remove();
+});
 
-const showFeaturedSlide = (index) => {
+const latestMovieCards = [...document.querySelectorAll("#movies-section .movies .card")].slice(0, 3);
+const latestSeriesCards = [...document.querySelectorAll("#series-section .movies .card")].slice(0, 3);
+const latestCatalogCards = latestMovieCards.flatMap((movieCard, index) => {
+    const seriesCard = latestSeriesCards[index];
+    return seriesCard ? [movieCard, seriesCard] : [movieCard];
+});
+
+latestCatalogCards.forEach((card, slideIndex) => {
+    const movieLink = card.querySelector('a[href^="#"][href$="-feature"]');
+    const poster = movieLink?.querySelector(".movie-poster");
+    const featureId = movieLink?.getAttribute("href").slice(1);
+    const feature = featureId ? document.getElementById(featureId) : null;
+    const title = card.querySelector(".card-content h3")?.textContent.trim();
+    if (!featureId || !feature || !poster || !title) return;
+
+    const isSeries = Boolean(card.closest("#series-section"));
+    const kind = isSeries ? "SERIES" : "FILM";
+    const category = feature.querySelector(".movie-category")?.textContent.trim()
+        || (card.dataset.genre || "").replaceAll("-", " ");
+    const slide = document.createElement("article");
+    slide.className = slideIndex === 0 ? "featured-slide is-active" : "featured-slide";
+    slide.dataset.featuredSlide = String(slideIndex);
+    slide.setAttribute("aria-hidden", String(slideIndex !== 0));
+
+    const backdrop = document.createElement("img");
+    backdrop.className = "featured-backdrop";
+    backdrop.src = poster.currentSrc || poster.src;
+    backdrop.alt = "";
+    backdrop.loading = "lazy";
+    slide.append(backdrop);
+
+    const content = document.createElement("div");
+    content.className = "featured-content";
+
+    const meta = document.createElement("div");
+    meta.className = "featured-meta";
+    const badge = document.createElement("span");
+    badge.className = "featured-badge";
+    badge.textContent = kind;
+    meta.append(badge);
+    if (category) {
+        const categoryLabel = document.createElement("span");
+        categoryLabel.textContent = category;
+        meta.append(categoryLabel);
+    }
+
+    const heading = document.createElement("h1");
+    heading.textContent = title;
+    const description = document.createElement("p");
+    description.textContent = `Discover ${title}. Explore its trailer and details.`;
+    const actions = document.createElement("div");
+    actions.className = "featured-actions";
+
+    const action = document.createElement("button");
+    action.className = "featured-action featured-action-primary";
+    action.type = "button";
+    action.dataset.featuredAction = "details";
+    action.dataset.featureId = featureId;
+    action.textContent = isSeries ? "Explore series" : "Explore movie";
+    actions.append(action);
+
+    content.append(meta, heading, description, actions);
+    slide.append(content);
+    featuredCarousel.insertBefore(slide, featuredPagination.parentElement);
+
+    const dot = document.createElement("button");
+    dot.className = "featured-dot";
+    dot.type = "button";
+    dot.dataset.featuredIndex = String(slideIndex);
+    dot.setAttribute("aria-label", `Show ${title}`);
+    dot.setAttribute("aria-pressed", "false");
+    featuredPagination.append(dot);
+});
+
+const featuredSlides = [...featuredCarousel.querySelectorAll("[data-featured-slide]")];
+let featuredDots = [...featuredPagination.querySelectorAll("[data-featured-index]")];
+let activeFeaturedIndex = 0;
+const featuredRotationInterval = 6000;
+const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+let featuredRotationTimer = null;
+let featuredCarouselHovered = false;
+
+const restartFeaturedRotation = () => {
+    clearInterval(featuredRotationTimer);
+    featuredRotationTimer = null;
+    if (featuredSlides.length < 2
+        || reducedMotionPreference.matches
+        || document.hidden
+        || featuredCarouselHovered
+        || featuredCarousel.contains(document.activeElement)) return;
+
+    featuredRotationTimer = setInterval(() => {
+        showFeaturedSlide(activeFeaturedIndex + 1);
+    }, featuredRotationInterval);
+};
+
+const showFeaturedSlide = (index, restartTimer = true) => {
     activeFeaturedIndex = (index + featuredSlides.length) % featuredSlides.length;
     featuredSlides.forEach((slide, slideIndex) => {
-        slide.hidden = slideIndex !== activeFeaturedIndex;
+        const isActive = slideIndex === activeFeaturedIndex;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
     });
     featuredDots.forEach((dot, dotIndex) => {
         dot.setAttribute("aria-pressed", String(dotIndex === activeFeaturedIndex));
     });
+    if (restartTimer) restartFeaturedRotation();
 };
 
 document.querySelector("#featured-previous").addEventListener("click", () => {
@@ -2092,6 +2939,28 @@ featuredDots.forEach((dot) => {
     });
 });
 
+featuredCarousel.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "mouse") return;
+    featuredCarouselHovered = true;
+    restartFeaturedRotation();
+});
+featuredCarousel.addEventListener("pointerleave", (event) => {
+    if (event.pointerType !== "mouse") return;
+    featuredCarouselHovered = false;
+    restartFeaturedRotation();
+});
+featuredCarousel.addEventListener("focusin", restartFeaturedRotation);
+featuredCarousel.addEventListener("focusout", () => {
+    requestAnimationFrame(restartFeaturedRotation);
+});
+document.addEventListener("visibilitychange", restartFeaturedRotation);
+if (reducedMotionPreference.addEventListener) {
+    reducedMotionPreference.addEventListener("change", restartFeaturedRotation);
+} else {
+    reducedMotionPreference.addListener(restartFeaturedRotation);
+}
+restartFeaturedRotation();
+
 document.querySelectorAll("[data-featured-action]").forEach((actionButton) => {
     actionButton.addEventListener("click", () => {
         const featureId = actionButton.dataset.featureId;
@@ -2102,7 +2971,6 @@ document.querySelectorAll("[data-featured-action]").forEach((actionButton) => {
             if (activeMovieReturn) activeMovieReturn();
             if (restoreActiveFeature) {
                 restoreActiveFeature();
-                closeMoviePlayer.hidden = true;
                 moviePlayerStage.hidden = true;
             }
             feature.querySelector(".watch-now")?.click();
@@ -2132,11 +3000,36 @@ try {
 catalogCards.forEach((card) => {
     const titleElement = card.querySelector(".card-content h3");
     const content = card.querySelector(".card-content");
+    const featureLink = card.querySelector('a[href^="#"][href$="-feature"]');
 
     if (!titleElement || !content) return;
 
     const title = titleElement.textContent.trim();
     card.dataset.searchText = `${content.textContent} ${card.dataset.genre || ""}`.toLowerCase();
+
+    if (featureLink && document.getElementById(featureLink.hash.slice(1))) {
+        const shareButton = document.createElement("button");
+        shareButton.className = "card-share-button";
+        shareButton.type = "button";
+        shareButton.textContent = "↗ Share title";
+        shareButton.setAttribute("aria-label", `Share ${title}`);
+        shareButton.addEventListener("click", async () => {
+            const titleUrl = new URL(window.location.href);
+            titleUrl.hash = featureLink.hash.slice(1);
+            try {
+                if (!navigator.share) throw new Error("Web Share API unavailable");
+                await navigator.share({
+                    title: `${title} | ${document.title}`,
+                    text: `Explore ${title}`,
+                    url: titleUrl.href
+                });
+            } catch (error) {
+                if (error instanceof DOMException && error.name === "AbortError") return;
+                await copyPageLink(titleUrl.href, `${title} link copied`);
+            }
+        });
+        content.append(shareButton);
+    }
 
     const watchlistButton = document.createElement("button");
     watchlistButton.className = "watchlist-button";
@@ -2170,6 +3063,17 @@ catalogCards.forEach((card) => {
     content.append(watchlistButton);
 });
 
+const openSharedTitle = () => {
+    const featureId = window.location.hash.slice(1);
+    if (!featureId.endsWith("-feature")) return;
+    const featureLink = [...document.querySelectorAll('.movies .card > a[href^="#"][href$="-feature"]')]
+        .find((link) => link.hash.slice(1) === featureId);
+    featureLink?.click();
+};
+
+window.addEventListener("hashchange", openSharedTitle);
+openSharedTitle();
+
 function applyCatalogFilters(){
     const query = catalogSearch.value.trim().toLowerCase();
     const selectedGenre = genreFilter.value;
@@ -2191,13 +3095,31 @@ function applyCatalogFilters(){
 }
 
 catalogSearch.addEventListener("input", applyCatalogFilters);
-genreFilter.addEventListener("change", applyCatalogFilters);
+const genreChips = [...document.querySelectorAll("[data-genre-chip]")];
+const updateGenreChips = () => {
+    genreChips.forEach((chip) => {
+        chip.setAttribute("aria-pressed", String(chip.dataset.genreChip === genreFilter.value));
+    });
+};
+
+genreFilter.addEventListener("change", () => {
+    updateGenreChips();
+    applyCatalogFilters();
+});
+genreChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+        genreFilter.value = chip.dataset.genreChip;
+        updateGenreChips();
+        applyCatalogFilters();
+    });
+});
 watchlistFilter.addEventListener("click", () => {
     showWatchlistOnly = !showWatchlistOnly;
     watchlistFilter.setAttribute("aria-pressed", String(showWatchlistOnly));
     watchlistFilter.textContent = showWatchlistOnly ? "Show all titles" : "☆ Show watchlist";
     applyCatalogFilters();
 });
+updateGenreChips();
 </script>
 
 </body>
